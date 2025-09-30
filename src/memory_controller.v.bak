@@ -1,20 +1,21 @@
 module memory_controller( ADR_IN, ADR_OUT, BDR, DIN, DOUT, RE_IN,  WE_IN, WE_OUT, NRST, CLK, RDY, CKE, CS, RAS, CAS  );
 
 //parameterized charactheristics of SDRAM
-parametr BANK_NUM = 4;
-parametr ROW_DEPTH = 8192;
-parametr COLUMN_DEPTH = 512;
-parametr COLUMN_WIDTH = 16;
-parametr BANK_ADRESS = $clog2(BANK_NUM);
-parametr ROW_ADRESS = $clog2(ROW_DEPTH);
-parametr COLUMN_ADRESS = $clog2(COLUMN_DEPTH);
+parameter BANK_NUM = 4;
+parameter ROW_DEPTH = 8192;
+parameter COLUMN_DEPTH = 512;
+parameter COLUMN_WIDTH = 16;
+parameter BANK_ADRESS = $clog2(BANK_NUM);
+parameter ROW_ADRESS = $clog2(ROW_DEPTH);
+parameter COLUMN_ADRESS = $clog2(COLUMN_DEPTH);
 
 //delays and timings
-parametr CAS_LATENCY = 7; //ns
-parametr REFR_TIME = 64; //ms
-parametr RP_TIME = 15; //ns, REQUIRED_PRECHARGE TIME
-localparam init_delay  = $ceil (( 100 * 10^(-6) ) / CAS_LATENCY); //init delay
-localparam REFR_count_width = $ceil ($clog2( (REFR_TIME * 10^(-3)) / (CAS_LATENCY * 10^(-9)))); //counter width due to refresh time
+parameter CAS_LATENCY = 7;   //ns
+parameter REFR_TIME = 8192; //cycles (64 ms), TIME BEFORE REFRESH
+parameter RP_TIME = 3;     //cycles (15 ns), REQUIRED_PRECHARGE_TIME
+parameter RC_TIME = 9;    //cycles (60 ns), REQUIRED_REFRESH_TIME
+localparam init_delay  = $ceil (( 100 * 10^(-6) ) / CAS_LATENCY);  // INIT_DELAY
+localparam REFR_count_width = $ceil ($clog2(REFR_TIME));          //counter width due to refresh time
 
 
 input   [ROW_ADRESS - 1:0]    ADR_IN;
@@ -33,11 +34,12 @@ output                        RAS;         //active low
 output                        CAS;         //active low
 output                        WE_OUT;      //active low
 
-localparam [:0] INIT_HOLD =  ;
-localparam [:0] PRECHARGE =  ;
-localparam [:0] IDLE      =  ;
-localparam [:0] AUTO_REFR =  ;
-localparam [:0] MRS       =  ;            //mode register setup
+localparam [3:0] NOP        = 4'b0000;
+localparam [3:0] INIT_HOLD  = 4'b0001;
+localparam [3:0] PRECHARGE_ALL  = 4'b0010;
+localparam [3:0] IDLE       = 4'b0011 ;
+localparam [3:0] AUTO_REFR  = 4'b0100 ;
+localparam [3:0] MRS        = 4'b0101 ;            //mode register setup
 
 /*localparam [3:0] POWER_ON = 5'b ;
 localparam [3:0] PRECHARGE = 5'b ;
@@ -60,21 +62,22 @@ localparam [3:0] MRS = 5'b ;*/
 reg [3:0] state, next_state;
 reg [REFR_count_width - 1: 0] counter, counter_db;
 reg init_flag;
+reg MRS_flag;
 
 always @(posedge CLK or NRST) 
     begin
         if (!NRST)
-        state <= INIT_HOLD;
+            state <= INIT_HOLD;
         else 
-        state <= next_state;
+            state <= next_state;
         
         //encount every clock to calculate refresh time and etc
-        counter += 1;
+        counter = counter + 1;
 
-        if (state == INIT_HOLD)        //надо сделать так для всех стейтов из которых доступен prechrage
+        if (next_state == PRECHARGE_ALL)    //надо сделать так для всех стейтов из которых доступен prechrage, сделано
             counter_db <= counter;
-        if ( (state == AUTO_REFR) && (init_flag) )
-            counter_db <= counter;
+        //if ( (state == AUTO_REFR) && (init_flag) )
+        //    counter_db <= counter;
     end
 
 
@@ -86,14 +89,29 @@ always @(*)
 
         case (state)
 
+            IDLE:           begin
+                            //first transition after refresh - AUTO_REFR
+                            if (init_flag && !MRS_flag) begin
+                                next_state = AUTO_REFR;
+                                MRS_flag = 1;
+                            end
+                            //second transition after refresh - MRS
+                            if (init_flag && MRS_flag) begin
+                                next_state = MRS;
+                                MRS_flag = 0;
+                            end
+                            
+
+            end
+
             INIT_HOLD:      begin
                             if (counter >= init_delay)
-                                next_state = PRECHARGE;
+                                next_state = PRECHARGE_ALL;
                             init_hold;
             end
 
             PRECHARGE_ALL:  begin
-                            if ( (counter - counter_db) >= (RP_TIME/CAS_LATENCY) ) begin
+                            if ( (counter - counter_db) >= RP_TIME ) begin
                                 if ( init_flag )
                                     next_state = AUTO_REFR;
                                 else
@@ -102,20 +120,17 @@ always @(*)
                             prechrage_all;
             end
 
-            IDLE:           begin
-                           
-            end
 
             AUTO_REFR:      begin
-                            if ((counter - counter_db) = 2) begin
-                                next_state = MRS;
+                            if ((counter - counter_db) >= RC_TIME) begin
+                                next_state = IDLE;
                                 //init_flag = 0;
                             end
                             auto_refr;
             end
 
             //дописать
-            MRS:
+            //MRS:
 
         endcase
     end
@@ -127,7 +142,7 @@ task init_hold;
         CS = 0;
         RAS = 1;
         CAS = 1;
-        WE = 1;
+        WE_OUT = 1;
         RDY = 0;
         init_flag = 1;
     end
@@ -141,7 +156,7 @@ task prechrage_all;
         CS = 0;
         RAS = 0;
         CAS = 1;
-        WE = 0;
+        WE_OUT = 0;
         RDY = 0;
 
     end
@@ -154,12 +169,22 @@ task auto_refr;
         CS = 0;
         RAS = 0;
         CAS = 1;
-        WE = 0;
+        WE_OUT = 0;
         RDY = 0;
+        
 
     end
 endtask
 
-
+// task nop;
+//     begin
+//         CKE = 1;
+//         CS = 0;
+//         RAS = 1;
+//         CAS = 1;
+//         WE = 1;
+//         RDY = 0;
+//     end 
+// endtask
   
 endmodule

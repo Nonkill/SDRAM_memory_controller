@@ -6,45 +6,10 @@ set src_dir     $PROJ/src
 vlib $sim_dir/work
 vmap WORK $sim_dir/work
 
-vlog +acc $src_dir/test_bench2.v
+vlog +acc $src_dir/test_bench.sv
+vlog +acc $src_dir/memory_controller.v
 
-vlog +acc $src_dir/cpu_system.v
-vlog +acc $src_dir/bram_1w_1r.v
 
-vlog +acc $src_dir/bram_1w_1r_pmem_l1.v
-vlog +acc $src_dir/bram_1w_1r_pmem_h1.v
 
-vlog +acc $src_dir/tap_top.v
-vlog +acc $src_dir/JBFLS006K8IDA.v
 
-vlog +acc $src_dir/JLRAMSAC8192X8C4V0.v
-
-vlog +acc $src_dir/ctrl_from_tap_to_flash.v
-vlog +acc $src_dir/synch.v
-vlog +acc $src_dir/hamming_encoder_64bit.v
-vlog +acc $src_dir/hamming_decoder_64bit.v
-vlog +acc $src_dir/mem_ctrl_top.v
-
-vlog +acc $src_dir/core/omsp_alu.v
-vlog +acc $src_dir/core/omsp_and_gate.v
-vlog +acc $src_dir/core/omsp_clock_gate.v
-vlog +acc $src_dir/core/omsp_clock_module.v
-vlog +acc $src_dir/core/omsp_clock_mux.v
-vlog +acc $src_dir/core/omsp_dbg.v
-vlog +acc $src_dir/core/omsp_dbg_hwbrk.v
-vlog +acc $src_dir/core/omsp_dbg_i2c.v
-vlog +acc $src_dir/core/omsp_dbg_uart.v
-vlog +acc $src_dir/core/omsp_execution_unit.v
-vlog +acc $src_dir/core/omsp_frontend.v
-vlog +acc $src_dir/core/omsp_mem_backbone.v
-vlog +acc $src_dir/core/omsp_multiplier.v
-vlog +acc $src_dir/core/omsp_register_file.v
-vlog +acc $src_dir/core/omsp_scan_mux.v
-vlog +acc $src_dir/core/omsp_sfr.v
-vlog +acc $src_dir/core/omsp_sync_cell.v
-vlog +acc $src_dir/core/omsp_sync_reset.v
-vlog +acc $src_dir/core/omsp_wakeup_cell.v
-vlog +acc $src_dir/core/omsp_watchdog.v
-vlog +acc $src_dir/core/openMSP430.v
-
-vsim -t 1ns -lib work test_bench
+vsim -t 1ns -lib work memory_controller_tb
