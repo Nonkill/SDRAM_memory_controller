@@ -1,0 +1,353 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "ADR_OUT[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[3]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[4]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[5]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[6]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[7]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[8]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[9]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[10]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[11]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_OUT[12]",
+					"strict" : false
+				},
+				{
+					"name" : "BDR_OUT[0]",
+					"strict" : false
+				},
+				{
+					"name" : "BDR_OUT[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DOUT[15]",
+					"strict" : false
+				},
+				{
+					"name" : "WE_OUT",
+					"strict" : false
+				},
+				{
+					"name" : "RDY",
+					"strict" : false
+				},
+				{
+					"name" : "RAS",
+					"strict" : false
+				},
+				{
+					"name" : "CAS",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[15]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[1]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[2]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[3]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[4]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[5]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[6]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[7]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[8]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[9]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[10]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[11]",
+					"strict" : false
+				},
+				{
+					"name" : "ADR_IN[12]",
+					"strict" : false
+				},
+				{
+					"name" : "BDR_IN[0]",
+					"strict" : false
+				},
+				{
+					"name" : "BDR_IN[1]",
+					"strict" : false
+				},
+				{
+					"name" : "CLK",
+					"strict" : false
+				},
+				{
+					"name" : "RE_IN",
+					"strict" : false
+				},
+				{
+					"name" : "NRST",
+					"strict" : false
+				},
+				{
+					"name" : "WE_IN",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DIN[15]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

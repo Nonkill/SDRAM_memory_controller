@@ -1,0 +1,20 @@
+Warning (10273): Verilog HDL warning at memory_controller.v(75): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 75
+Warning (10273): Verilog HDL warning at memory_controller.v(233): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 233
+Warning (10273): Verilog HDL warning at memory_controller.v(234): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 234
+Warning (10273): Verilog HDL warning at memory_controller.v(240): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 240
+Warning (10273): Verilog HDL warning at memory_controller.v(241): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 241
+Warning (10273): Verilog HDL warning at memory_controller.v(256): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 256
+Warning (10273): Verilog HDL warning at memory_controller.v(257): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 257
+Warning (10273): Verilog HDL warning at memory_controller.v(259): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 259
+Warning (10273): Verilog HDL warning at memory_controller.v(273): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 273
+Warning (10273): Verilog HDL warning at memory_controller.v(274): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 274
+Warning (10273): Verilog HDL warning at memory_controller.v(288): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 288
+Warning (10273): Verilog HDL warning at memory_controller.v(289): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 289
+Warning (10273): Verilog HDL warning at memory_controller.v(350): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 350
+Warning (10273): Verilog HDL warning at memory_controller.v(367): extended using "x" or "z" File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 367
+Info (10281): Verilog HDL Declaration information at memory_controller.v(41): object "INIT_HOLD" differs only in case from object "init_hold" in the same scope File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 41
+Info (10281): Verilog HDL Declaration information at memory_controller.v(45): object "AUTO_REFR" differs only in case from object "auto_refr" in the same scope File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 45
+Info (10281): Verilog HDL Declaration information at memory_controller.v(46): object "MRS" differs only in case from object "mrs" in the same scope File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 46
+Info (10281): Verilog HDL Declaration information at memory_controller.v(47): object "ACTIVE" differs only in case from object "active" in the same scope File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 47
+Info (10281): Verilog HDL Declaration information at memory_controller.v(48): object "READ" differs only in case from object "read" in the same scope File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 48
+Info (10281): Verilog HDL Declaration information at memory_controller.v(49): object "WRITE" differs only in case from object "write" in the same scope File: D:/SV projects/SDRAM controller/src/memory_controller.v Line: 49
