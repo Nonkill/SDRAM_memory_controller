@@ -113,7 +113,16 @@ always @(*)
             INIT_HOLD:      begin
                             if ( counter >= init_delay )
                                 next_state = PRECHARGE_ALL;
-                            init_hold;
+                            
+                            //init task
+                            CKE = 1;
+                            RAS = 1;
+                            CS = 0;
+                            CAS = 1;
+                            WE_OUT = 1;
+                            RDY = 0;
+                            ADR_OUT  = 13'bz;
+                            BDR_OUT = 2'bz;
             end
 
             IDLE:           begin
@@ -140,16 +149,33 @@ always @(*)
                             //leap to WRITE comand after activation and holding nop
                             if ( WE_IN && ACTIVE_flag)
                                 next_state = WRITE;
-                                
-                            nop;  //in IDLE state operating NOP command
+
+                            //NOP command //in IDLE state operating NOP command
+                            ADR_OUT  = 13'bz;
+                            BDR_OUT = 2'bz;
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 1;
+                            CAS = 1;
+                            WE_OUT = 1;
+                            RDY = 1;
             end
             
             PRECHARGE:      begin
                             if ( (counter - counter_db) >= RP_TIME ) 
                                     next_state = IDLE;
-                                    // RDY setup leaved here, beacuse state switch coincides with valid data out
-                                    RDY = 1;
-                            prechrage;
+                            
+                            //PRECHARGE command
+                            ADR_OUT [9:0] = 10'bz;
+                            ADR_OUT [12:11] = 2'bz;
+                            ADR_OUT [10] = 0;
+                            BDR_OUT = BDR_IN;
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 0;
+                            CAS = 1;
+                            WE_OUT = 0;
+                            RDY = 1;
 
             end
 
@@ -160,7 +186,18 @@ always @(*)
                                 else
                                     next_state = IDLE;
                             end
-                            prechrage_all;
+                            
+                            //PRECHRGE_ALL command
+                            ADR_OUT [9:0] = 10'bz;
+                            ADR_OUT [12:11] = 2'bz;
+                            ADR_OUT [10] = 1;
+                            BDR_OUT = 2'bz;
+                            CKE = 1;
+                            CS =  0;
+                            RAS = 0;
+                            CAS = 1;
+                            WE_OUT = 0;
+                            RDY = 0;
             end
 
 
@@ -168,186 +205,103 @@ always @(*)
                             if ( (counter - counter_db) >= RC_TIME ) begin
                                 next_state = IDLE;
                             end
-                            auto_refr;
+                            
+                            //AUTO_REFR command
+                            ADR_OUT  = 13'bz;
+                            BDR_OUT = 2'bz;
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 0;
+                            CAS = 1;
+                            WE_OUT = 0;
+                            RDY = 0;
             end
 
             MRS:            begin
                             next_state = IDLE;
-                            mrs;
+
+                            //register configuration
+                            if   ( init_flag ) begin
+                                BDR_OUT = 2'b00;
+                                ADR_OUT = 13'b000_0_00_011_0_111;
+                            end
+                            else begin
+                                BDR_OUT = 2'b00;
+                                ADR_OUT = 13'b000_0_00_011_0_111;
+                            end    
+
+                            //MRS command
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 0;
+                            CAS = 0;
+                            WE_OUT = 0;
+                            RDY = 0;
             end
 
             //in case of developing a device that can operate in burst and random-access modes need to make READ and READA
             ACTIVE:         begin
                             next_state = IDLE;
-                            active;
+                            
+                            //ACTIVE command
+                            BDR_OUT = BDR_IN;
+                            ADR_OUT [12:0] = ADR_IN [12:0]; 
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 0;
+                            CAS = 1;
+                            WE_OUT = 1;
+                            RDY = 0;
             end
             
             READ:           begin
                             next_state = PRECHARGE;
-                            read;
+                            
+                            //READ command
+                            BDR_OUT = BDR_IN;
+                            ADR_OUT [9:0] = ADR_IN [9:0];
+                            ADR_OUT [10] = 0;
+                            ADR_OUT [12:11] = 2'bz;
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 1;
+                            CAS = 0;
+                            WE_OUT = 1;
+                            RDY = 0;
             end 
 
             WRITE:          begin
                             if ( (counter - counter_db) >= DPL_TIME )
                                 next_state = PRECHARGE;
-                            write;
+                            
+                            //WRITE command
+                            BDR_OUT = BDR_IN;
+                            ADR_OUT [9:0] = ADR_IN [9:0];
+                            ADR_OUT [10] = 0;
+                            ADR_OUT [12:11] = 2'bz;
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 1;
+                            CAS = 0;
+                            WE_OUT = 0;
+                            RDY = 0;
             end
             
             default:        begin
                             next_state = IDLE;
-                            nop;
+                            
+                            //NOP command
+                            ADR_OUT  = 13'bz;
+                            BDR_OUT = 2'bz;
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 1;
+                            CAS = 1;
+                            WE_OUT = 1;
+                            RDY = 0;
                             
             end
         endcase
     end
-
-task init_hold;
-    begin
-
-        CKE = 1;
-        CS = 0;
-        RAS = 1;
-        CAS = 1;
-        WE_OUT = 1;
-        RDY = 0;
-        ADR_OUT  = 13'bz;
-        BDR_OUT = 2'bz;
-    end
-endtask
-
-task prechrage;
-    begin
-        ADR_OUT [9:0] = 9'bz;
-        ADR_OUT [12:11] = 2'bz;
-        ADR_OUT [10] = 0;
-        BDR_OUT = BDR_IN;
-        CKE = 1;
-        CS = 0;
-        RAS = 0;
-        CAS = 1;
-        WE_OUT = 0;
-        //RDY вверху объявлен
-
-    end
-endtask
-
-task prechrage_all;
-    begin
-        
-        ADR_OUT [9:0] = 10'bz;
-        ADR_OUT [12:11] = 2'bz;
-        ADR_OUT [10] = 1;
-        BDR_OUT = 2'bz;
-        CKE = 1;
-        CS =  0;
-        RAS = 0;
-        CAS = 1;
-        WE_OUT = 0;
-        RDY = 0;
-
-    end
-endtask
-
-task auto_refr;
-    begin
-        
-        ADR_OUT  = 13'bz;
-        BDR_OUT = 2'bz;
-        CKE = 1;
-        CS = 0;
-        RAS = 0;
-        CAS = 1;
-        WE_OUT = 0;
-        RDY = 0;
-        
-    end
-endtask
-
-task nop;
-    begin
-        
-        ADR_OUT  = 13'bz;
-        BDR_OUT = 2'bz;
-        CKE = 1;
-        CS = 0;
-        RAS = 1;
-        CAS = 1;
-        WE_OUT = 1;
-        RDY = 0;
-
-    end 
-endtask
-
-task mrs;
-    begin
-        
-        //можно объединить
-        if   ( init_flag ) begin
-            BDR_OUT = 2'b00;
-            ADR_OUT = 13'b000_0_00_011_0_111;
-        end
-        else begin
-            BDR_OUT = 2'b00;
-            ADR_OUT = 13'b000_0_00_011_0_111;
-        end    
-
-        CKE = 1;
-        CS = 0;
-        RAS = 0;
-        CAS = 0;
-        WE_OUT = 0;
-        RDY = 0;
-
-    end
-endtask
-
-task active;
-    begin
-
-        BDR_OUT = BDR_IN;
-        ADR_OUT [12:0] = ADR_IN [12:0]; 
-        CKE = 1;
-        CS = 0;
-        RAS = 0;
-        CAS = 1;
-        WE_OUT = 1;
-        RDY = 0;
-
-    end
-endtask
-
-task read;
-    begin
-
-        BDR_OUT = BDR_IN;
-        ADR_OUT [9:0] = ADR_IN [9:0];
-        ADR_OUT [10] = 0;
-        ADR_OUT [12:11] = 2'bz;
-        CKE = 1;
-        CS = 0;
-        RAS = 1;
-        CAS = 0;
-        WE_OUT = 1;
-        RDY = 0;
-
-    end
-endtask
-
-task write;
-    begin
-
-        BDR_OUT = BDR_IN;
-        ADR_OUT [9:0] = ADR_IN [9:0];
-        ADR_OUT [10] = 0;
-        ADR_OUT [12:11] = 2'bz;
-        CKE = 1;
-        CS = 0;
-        RAS = 1;
-        CAS = 0;
-        WE_OUT = 0;
-        RDY = 0;
-
-    end
-endtask
 
 endmodule

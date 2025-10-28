@@ -8,7 +8,7 @@ vmap WORK $sim_dir/work
 
 vlog +acc $src_dir/test_bench.sv
 vlog +acc $src_dir/memory_controller.v
-
+vlog +acc $src_dir/42s16160.v
 
 
 
