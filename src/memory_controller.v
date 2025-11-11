@@ -14,6 +14,7 @@ parameter CAS_LATENCY = 7;   //ns,             (CAS_LATENCY = 3)
 parameter REFR_TIME = 9142000; //cycles (< 64 ms), TIME_TO_REFRESH, 857 cycles is in stock
 parameter RP_TIME = 3;     //cycles (15 ns), REQUIRED_PRECHARGE_TIME
 parameter RC_TIME = 9;    //cycles (60 ns), REQUIRED_REFRESH_TIME
+parameter RCD_TIME = 2;
 parameter DPL_TIME = 2;  //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
 localparam init_delay  =  14290;  // INIT_DELAY, пока без формул
 localparam REFR_TIME_width = $clog2(REFR_TIME);          //counter width due to refresh time
@@ -69,7 +70,7 @@ always @(posedge CLK or negedge NRST)
             end
         else  begin
             state <= next_state;
-            counter <= counter + 1;                                         //encount every clock to calculate refresh time and etc
+            counter <= counter + 1;                       //encount every clock to calculate refresh time and etc
 
         // a bunch of demands that save clock value to a doubler
         if  ((next_state == PRECHARGE_ALL && state != PRECHARGE_ALL) 
@@ -78,7 +79,9 @@ always @(posedge CLK or negedge NRST)
              ||
              (next_state == PRECHARGE && state != PRECHARGE)
              ||
-             (next_state == WRITE && state != WRITE)) 
+             (next_state == WRITE && state != WRITE)
+             ||
+             (next_state == ACTIVE && state != ACTIVE)) 
             counter_db <= counter;
 
         if (state == IDLE && (init_flag && !MRS_flag))
@@ -91,7 +94,7 @@ always @(posedge CLK or negedge NRST)
         if (state == ACTIVE)
             ACTIVE_flag <= 1;
             
-        if (state == IDLE)
+        if (state == IDLE && (next_state == WRITE  || next_state == READ))
             ACTIVE_flag <= 0;
         //мб надо будет добавить условие с ? и приравнивать к x or z
         if ( RDY && RE_IN ) 
@@ -143,11 +146,11 @@ always @(*)
                                 next_state = ACTIVE;
                             end
                             //leap to READ comand after activation and holding nop
-                            if ( RE_IN && ACTIVE_flag)
+                            if ( RE_IN && ACTIVE_flag && ((counter - counter_db) >= RCD_TIME + 1))
                                 next_state = READ;
 
                             //leap to WRITE comand after activation and holding nop
-                            if ( WE_IN && ACTIVE_flag)
+                            if ( WE_IN && ACTIVE_flag && ((counter - counter_db) >= RCD_TIME + 1))
                                 next_state = WRITE;
 
                             //NOP command //in IDLE state operating NOP command

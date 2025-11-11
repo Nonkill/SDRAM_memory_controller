@@ -1,6 +1,6 @@
 do ./test_bench.fdo
 do ./test_bench.udo
 
-run 500 us
+run 114 us
 
 #run -all

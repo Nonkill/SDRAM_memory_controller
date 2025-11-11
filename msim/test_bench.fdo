@@ -12,4 +12,4 @@ vlog +acc $src_dir/42s16160.v
 
 
 
-vsim -t 1ns -lib work memory_controller_tb
+vsim -t 100ps -lib work memory_controller_tb

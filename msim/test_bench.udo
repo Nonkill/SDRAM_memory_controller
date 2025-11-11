@@ -16,12 +16,15 @@ add wave -group SIGNALS_IN  -noupdate -format binary  /memory_contoller_inst/BDR
 add wave -group SIGNALS_IN  -noupdate -format binary  /memory_contoller_inst/WE_IN
 add wave -group SIGNALS_IN  -noupdate -format binary  /memory_contoller_inst/RE_IN
 add wave -group SIGNALS_IN  -noupdate -format binary  /memory_contoller_inst/DIN
-add wave -group CHECK_STATE   -noupdate -format binary  /memory_contoller_inst/state
-add wave -group CHECK_STATE   -noupdate -format binary  /memory_contoller_inst/next_state
-add wave -group COUNTERS      -noupdate -format decimal /memory_contoller_inst/counter
-add wave -group COUNTERS      -noupdate -format decimal /memory_contoller_inst/counter_db
-add wave -noupdate -format decimal memory_controller_tb/addr_row
-add wave -noupdate -format decimal memory_controller_tb/addr_collumn
+add wave -group CHECK_STATE -noupdate -format binary  /memory_contoller_inst/state
+add wave -group CHECK_STATE -noupdate -format binary  /memory_contoller_inst/next_state
+add wave -group COUNTERS    -noupdate -format decimal /memory_contoller_inst/counter
+add wave -group COUNTERS    -noupdate -format decimal /memory_contoller_inst/counter_db
+
+add wave -group TB          -noupdate -format decimal memory_controller_tb/addr_row
+add wave -group TB          -noupdate -format decimal memory_controller_tb/addr_collumn
+add wave -group TB          -noupdate -format decimal memory_controller_tb/errors
+
 
 add wave -group MEMORY -noupdate -format binary  /memory_inst/Dq
 
