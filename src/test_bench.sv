@@ -17,8 +17,8 @@ logic      [15:0]                    DOUT;
 logic                                RE_IN;  
 logic                                WE_IN; 
 wire                                 WE_OUT; 
-logic                                NRST; 
-logic                                CLK; 
+logic                                NRST = 0; 
+logic                                CLK = 0; 
 logic                                RDY; 
 wire                                 CKE;       
 wire                                 CS;        
@@ -55,14 +55,14 @@ memory_controller memory_contoller_inst (
                         .DQ (DQ)  
 );
  
-assign #20 ADR_OUT = adr_out; 
-assign #20 BDR_OUT = bdr_out;  
-assign #20 WE_OUT  = we_out;  
-assign #20 CKE     = cke;       
-assign #20 CS      = cs;        
-assign #20 RAS     = ras;       
-assign #20 CAS     = cas;       
-assign #20 DQ      = dq;    
+assign #20 adr_out = ADR_OUT; 
+assign #20 bdr_out = BDR_OUT;  
+assign #20 we_out  = WE_OUT;  
+assign #20 cke     = CKE;       
+assign #20 cs      = CS;        
+assign #20 ras     = RAS;       
+assign #20 cas     = CAS ;       
+assign #20 dq      = DQ;    
 
 IS42S16160 memory_inst (
                         .Dq(dq),
@@ -77,75 +77,83 @@ IS42S16160 memory_inst (
                         .Dqm(2'b00)
 );
 
-task automatic mem_ACTIVE_select_row (output logic [12:0] ADR_IN);
-        #10;
+task automatic mem_ACTIVE_select_row (ref logic [12:0] ADR_IN);
+        //#10;
         ADR_IN = addr_row;
 endtask
 
-task automatic mem_WRITE_collumn (output logic [12:0] ADR_IN);
-        #10;
+task automatic mem_WRITE_collumn (ref logic [12:0] ADR_IN);
+        //#10;
         ADR_IN = addr_collumn;
 endtask
 
-task automatic mem_WRITE (ref logic CLK, inout logic [12:0] addr_row, inout logic [8:0] addr_collumn, input logic RDY, inout logic [12:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN, output logic [15:0] DIN);
+task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:0] addr_collumn, input logic RDY, ref logic [12:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN, output logic [15:0] DIN);
 
                 //@(posedge CLK);
-                if (RDY) begin
-                        if (addr_collumn < 512) begin
-                                ADR_IN = addr_row;
+                if (1) begin
+                        if (addr_collumn < 511) begin
+
+                                repeat (4) @(posedge CLK);
+                                //$display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
                                 WE_IN = 1;
                                 RE_IN = 0;
                                 DIN = $urandom();
                                 mem_doubler [BDR_IN][addr_row][addr_collumn] = DIN;
-                                repeat (2) @(posedge CLK);
-                                ADR_IN = addr_collumn;
+                                mem_WRITE_collumn (ADR_IN);
+                                //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
-                                
-                                //wait for write command and tDPL
-                                repeat (3) @(posedge CLK);
+                                repeat (5) @(posedge CLK);
+                                mem_ACTIVE_select_row (ADR_IN);
 
                         end
                         else begin
-                                if (&addr_row && (addr_collumn >= 512))
+
+                                if (&addr_row && (addr_collumn >= 511))
                                         BDR_IN = BDR_IN + 1;
                                 
                                 addr_row += 1;
                                 addr_collumn += 1;
-                                mem_ACTIVE_select_row (ADR_IN);
+                                repeat (4) @(posedge CLK);
+                                //$display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
                                 WE_IN = 1;
                                 RE_IN = 0;
                                 DIN = $urandom();
-                                repeat (2) @(posedge CLK);
+                                mem_doubler [BDR_IN][addr_row][addr_collumn] = DIN;
                                 mem_WRITE_collumn (ADR_IN);
+                                //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
-                                //wait for write command and tDPL
-                                repeat (3) @(posedge CLK);
+                                repeat (5) @(posedge CLK);
+                                mem_ACTIVE_select_row (ADR_IN);
+
                         end
                 end
 
 endtask
 
-task automatic mem_READ (ref logic CLK, inout logic [12:0] addr_row, inout logic [8:0] addr_collumn, input logic RDY, input logic [15:0] DQ, inout logic [12:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN);
+task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:0] addr_collumn, input logic RDY, input logic [15:0] DQ, ref logic [12:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN);
 
-                @(posedge CLK);
-                if (RDY) begin
-                        if (addr_collumn < 512) begin
-                                mem_ACTIVE_select_row (ADR_IN);
+                //@(posedge CLK);
+                if (1) begin
+                        if (addr_collumn < 511) begin
+
+                                repeat (3) @(posedge CLK);
+                                $display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
                                 WE_IN = 0;
                                 RE_IN = 1;
-                                repeat (2) @(posedge CLK);
                                 mem_WRITE_collumn (ADR_IN);
-                                //wait for write command and tDPL
+                                $display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
+                                addr_collumn += 1;
                                 repeat (3) @(posedge CLK);
                                 if ( DQ != mem_doubler [BDR_IN][addr_row][addr_collumn]) begin
                                         $error ("Found error in cell [%d][%d][%d]", BDR_IN, addr_row, addr_collumn);
                                         errors += 1;
                                 end
-                                addr_collumn += 1;
+                                repeat (2) @(posedge CLK);
+                                mem_ACTIVE_select_row (ADR_IN);
 
                         end
                         else begin
-                                if (&addr_row && (addr_collumn >= 512))
+                                if (&addr_row && (addr_collumn >= 511))
                                         BDR_IN = BDR_IN + 1;
                                 
                                 addr_row += 1;
@@ -170,19 +178,17 @@ task automatic mem_READ (ref logic CLK, inout logic [12:0] addr_row, inout logic
 
 endtask
 
- always begin
+always begin
         #35; CLK = ~CLK;
     end
 
 initial begin
         
         //reseting
-        #5;
+        #50;
         NRST = 0;
-        #10;
+      #100;
         NRST = 1;
-        #5
-        CLK = 1;
 
         WE_IN =  0;
         RE_IN =  0;
@@ -191,11 +197,12 @@ initial begin
         addr_row = 0;
         addr_collumn = 0;
 
-        repeat (14400)
+        repeat (14401)
                 @(posedge CLK);
 
         //16777216 - full size
-        repeat (200) begin
+        repeat (520) begin
+                //wait(RDY);
                 mem_WRITE (CLK, addr_row, addr_collumn, RDY, ADR_IN, BDR_IN, RE_IN, WE_IN, DIN);
         end
 
@@ -203,7 +210,7 @@ initial begin
         addr_row = 0;
         addr_collumn = 0;
 
-        repeat(200) begin
+        repeat(520) begin
                 mem_READ (CLK, addr_row, addr_collumn, RDY, DQ, ADR_IN, BDR_IN, RE_IN, WE_IN);
         end
 

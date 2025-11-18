@@ -56,7 +56,7 @@ reg init_flag;
 reg MRS_flag;
 reg ACTIVE_flag;
 
-assign DQ = (RDY && WE_IN) ? DIN : 16'bz;
+assign DQ = (~RDY && WE_IN) ? DIN : 16'bz;
 
 always @(posedge CLK or negedge NRST) 
     begin
@@ -200,7 +200,7 @@ always @(*)
                             RAS = 0;
                             CAS = 1;
                             WE_OUT = 0;
-                            RDY = 0;
+                            RDY = 1;
             end
 
 
