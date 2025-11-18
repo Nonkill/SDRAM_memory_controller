@@ -6,7 +6,7 @@ int                                  cnt;
 int                                  errors;
 logic     [12:0]                     addr_row;
 logic     [8:0]                      addr_collumn;
-logic     [15:0]                     mem_doubler [3:0][8192:0][8:0];
+logic     [15:0]                     mem_double [3:0][8192:0][8:0];
 
 logic      [12:0]                    ADR_IN; 
 wire       [12:0]                    ADR_OUT; 
@@ -54,7 +54,7 @@ memory_controller memory_contoller_inst (
                         .CAS (CAS),
                         .DQ (DQ)  
 );
- 
+//////sdfdsfsdfsdfsdfsdfsdfsd
 assign #20 adr_out = ADR_OUT; 
 assign #20 bdr_out = BDR_OUT;  
 assign #20 we_out  = WE_OUT;  
@@ -98,7 +98,7 @@ task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8
                                 WE_IN = 1;
                                 RE_IN = 0;
                                 DIN = $urandom();
-                                mem_doubler [BDR_IN][addr_row][addr_collumn] = DIN;
+                                mem_double [BDR_IN][addr_row][addr_collumn] = DIN;
                                 mem_WRITE_collumn (ADR_IN);
                                 //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
@@ -118,7 +118,7 @@ task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8
                                 WE_IN = 1;
                                 RE_IN = 0;
                                 DIN = $urandom();
-                                mem_doubler [BDR_IN][addr_row][addr_collumn] = DIN;
+                                mem_double [BDR_IN][addr_row][addr_collumn] = DIN;
                                 mem_WRITE_collumn (ADR_IN);
                                 //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
@@ -144,7 +144,7 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
                                 $display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
                                 repeat (3) @(posedge CLK);
-                                if ( DQ != mem_doubler [BDR_IN][addr_row][addr_collumn]) begin
+                                if ( DQ != mem_double [BDR_IN][addr_row][addr_collumn]) begin
                                         $error ("Found error in cell [%d][%d][%d]", BDR_IN, addr_row, addr_collumn);
                                         errors += 1;
                                 end
@@ -158,19 +158,20 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
                                 
                                 addr_row += 1;
                                 addr_collumn += 1;
-                                mem_ACTIVE_select_row (ADR_IN);
+                                repeat (3) @(posedge CLK);
+                                $display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
                                 WE_IN = 0;
                                 RE_IN = 1;
-                                repeat (2) @(posedge CLK);
                                 mem_WRITE_collumn (ADR_IN);
+                                $display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
-                                //wait for write command and tDPL
                                 repeat (3) @(posedge CLK);
-                                if ( DQ != mem_doubler [BDR_IN][addr_row][addr_collumn]) begin
+                                if ( DQ != mem_double [BDR_IN][addr_row][addr_collumn]) begin
                                         $error ("Found error in cell [%d][%d][%d]", BDR_IN, addr_row, addr_collumn);
                                         errors += 1;
                                 end
-                                addr_collumn += 1;
+                                repeat (2) @(posedge CLK);
+                                mem_ACTIVE_select_row (ADR_IN);
 
                         end
                 end
