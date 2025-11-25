@@ -1,4 +1,4 @@
-module memory_controller( ADR_IN, ADR_OUT, BDR_IN, BDR_OUT, DIN, DOUT, RE_IN,  WE_IN, WE_OUT, NRST, CLK, RDY, CKE, CS, RAS, CAS, DQ );
+module memory_controller( ADR_IN, ADR_OUT, BDR_IN, BDR_OUT, RE_IN,  WE_IN, WE_OUT, NRST, CLK, RDY, CKE, CS, RAS, CAS, DIRECTION);
 
 //parameterized charactheristics of SDRAM
 parameter BANK_NUM = 4;
@@ -10,33 +10,34 @@ parameter ROW_ADRESS = $clog2(ROW_DEPTH);
 parameter COLUMN_ADRESS = $clog2(COLUMN_DEPTH);
 
 //delays and timings
-parameter CAS_LATENCY = 7;   //ns,             (CAS_LATENCY = 3)
-parameter REFR_TIME = 9142000; //cycles (< 64 ms), TIME_TO_REFRESH, 857 cycles is in stock
-parameter RP_TIME = 3;     //cycles (15 ns), REQUIRED_PRECHARGE_TIME
-parameter RC_TIME = 9;    //cycles (60 ns), REQUIRED_REFRESH_TIME
-parameter RCD_TIME = 2;
-parameter DPL_TIME = 2;  //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
-localparam init_delay  =  14290;  // INIT_DELAY, пока без формул
+parameter CAS_LATENCY = 7;          //ns,             (CAS_LATENCY = 3)
+parameter REFR_TIME = 9142000;      //cycles (< 64 ms), TIME_TO_REFRESH, 857 cycles is in stock
+parameter RP_TIME = 3;              //cycles (15 ns), REQUIRED_PRECHARGE_TIME
+parameter RC_TIME = 9;              //cycles (60 ns), REQUIRED_REFRESH_TIME
+parameter RCD_TIME = 3;
+parameter DPL_TIME = 2;             //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
+localparam init_delay  =  14290;    // INIT_DELAY, пока без формул
 localparam REFR_TIME_width = $clog2(REFR_TIME);          //counter width due to refresh time
 
 
 input  wire  [ROW_ADRESS - 1:0]    ADR_IN;
 input  wire  [BANK_ADRESS - 1:0]   BDR_IN;
-input  wire  [COLUMN_WIDTH - 1:0]  DIN;
+//input  wire  [COLUMN_WIDTH - 1:0]  DIN;
 input  wire                        RE_IN;
 input  wire                        WE_IN;
 input  wire                        NRST;
 input  wire                        CLK;
 output reg   [ROW_ADRESS - 1:0]    ADR_OUT;
 output reg   [BANK_ADRESS - 1:0]   BDR_OUT;
-output reg   [COLUMN_WIDTH - 1:0]  DOUT;
+//output reg   [COLUMN_WIDTH - 1:0]  DOUT;
 output reg                         RDY;
 output reg                         CKE;
 output reg                         CS;          //active low
 output reg                         RAS;         //active low
 output reg                         CAS;         //active low
 output reg                         WE_OUT;      //active low
-inout  wire  [COLUMN_WIDTH - 1:0]  DQ;
+output wire                        DIRECTION;
+//inout  wire  [COLUMN_WIDTH - 1:0]  DQ;
 
 
 localparam [3:0] INIT_HOLD      =  4'b0000;
@@ -44,7 +45,7 @@ localparam [3:0] PRECHARGE      =  4'b0001;
 localparam [3:0] PRECHARGE_ALL  =  4'b0010;
 localparam [3:0] IDLE           =  4'b0011;
 localparam [3:0] AUTO_REFR      =  4'b0100;
-localparam [3:0] MRS            =  4'b0101;            //mode register setup
+localparam [3:0] MRS            =  4'b0101;
 localparam [3:0] ACTIVE         =  4'b0110;
 localparam [3:0] READ           =  4'b0111;
 localparam [3:0] WRITE          =  4'b1000;
@@ -56,7 +57,8 @@ reg init_flag;
 reg MRS_flag;
 reg ACTIVE_flag;
 
-assign DQ = (~RDY && WE_IN) ? DIN : 16'bz;
+//assign DQ = WE_IN ? DIN : 16'bz;
+assign DIRECTION = ~(state == WRITE);
 
 always @(posedge CLK or negedge NRST) 
     begin
@@ -81,7 +83,10 @@ always @(posedge CLK or negedge NRST)
              ||
              (next_state == WRITE && state != WRITE)
              ||
-             (next_state == ACTIVE && state != ACTIVE)) 
+             (next_state == READ && state != READ)
+             ||
+             (next_state == ACTIVE && state != ACTIVE)
+             ) 
             counter_db <= counter;
 
         if (state == IDLE && (init_flag && !MRS_flag))
@@ -97,8 +102,8 @@ always @(posedge CLK or negedge NRST)
         if (state == IDLE && (next_state == WRITE  || next_state == READ))
             ACTIVE_flag <= 0;
         //мб надо будет добавить условие с ? и приравнивать к x or z
-        if ( RDY && RE_IN ) 
-             DOUT <= DQ;
+        //if ( RDY ) 
+        //     DOUT <= DQ;
         end
 
     end
@@ -146,11 +151,11 @@ always @(*)
                                 next_state = ACTIVE;
                             end
                             //leap to READ comand after activation and holding nop
-                            if ( RE_IN && ACTIVE_flag && ((counter - counter_db) >= RCD_TIME + 1))
+                            if ( RE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME + 1))
                                 next_state = READ;
 
                             //leap to WRITE comand after activation and holding nop
-                            if ( WE_IN && ACTIVE_flag && ((counter - counter_db) >= RCD_TIME + 1))
+                            if ( WE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME + 1))
                                 next_state = WRITE;
 
                             //NOP command //in IDLE state operating NOP command
@@ -161,7 +166,10 @@ always @(*)
                             RAS = 1;
                             CAS = 1;
                             WE_OUT = 1;
-                            RDY = 1;
+                            if (ACTIVE_flag || init_flag || (counter >= REFR_TIME ))
+                                RDY = 0;
+                            else
+                                RDY = 1;
             end
             
             PRECHARGE:      begin
@@ -178,7 +186,7 @@ always @(*)
                             RAS = 0;
                             CAS = 1;
                             WE_OUT = 0;
-                            RDY = 1;
+                            RDY = 0;
 
             end
 
@@ -200,7 +208,7 @@ always @(*)
                             RAS = 0;
                             CAS = 1;
                             WE_OUT = 0;
-                            RDY = 1;
+                            RDY = 0;
             end
 
 
@@ -258,6 +266,7 @@ always @(*)
             end
             
             READ:           begin
+                            if ( (counter - counter_db) >= DPL_TIME )
                             next_state = PRECHARGE;
                             
                             //READ command

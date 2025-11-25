@@ -7,9 +7,10 @@ vlib $sim_dir/work
 vmap WORK $sim_dir/work
 
 vlog +acc $src_dir/test_bench.sv
+vlog +acc $src_dir/top.v
 vlog +acc $src_dir/memory_controller.v
 vlog +acc $src_dir/42s16160.v
 
+vlog +acc D:/SV_projects/glbl.v
 
-
-vsim -t 100ps -lib work memory_controller_tb
+vsim -t 100ps -L simprims_ver -lib work memory_controller_tb glbl
