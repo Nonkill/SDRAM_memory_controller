@@ -1,0 +1,6 @@
+do ./test_bench_LSR.fdo
+do ./test_bench_LSR.udo
+
+run 1 us
+
+#run -all

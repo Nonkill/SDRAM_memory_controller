@@ -15,7 +15,7 @@ parameter REFR_TIME = 9142000;      //cycles (< 64 ms), TIME_TO_REFRESH, 857 cyc
 parameter RP_TIME = 3;              //cycles (15 ns), REQUIRED_PRECHARGE_TIME
 parameter RC_TIME = 9;              //cycles (60 ns), REQUIRED_REFRESH_TIME
 parameter RCD_TIME = 3;
-parameter DPL_TIME = 2;             //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
+parameter DPL_TIME = 2 + 1;             //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
 localparam init_delay  =  14290;    // INIT_DELAY, пока без формул
 localparam REFR_TIME_width = $clog2(REFR_TIME);          //counter width due to refresh time
 
@@ -56,6 +56,7 @@ reg [REFR_TIME_width - 1: 0] counter, counter_db;
 reg init_flag;
 reg MRS_flag;
 reg ACTIVE_flag;
+reg PRECHARGE_flag;
 
 //assign DQ = WE_IN ? DIN : 16'bz;
 assign DIRECTION = ~(state == WRITE);
@@ -86,6 +87,8 @@ always @(posedge CLK or negedge NRST)
              (next_state == READ && state != READ)
              ||
              (next_state == ACTIVE && state != ACTIVE)
+             ||
+             (next_state == IDLE && state == PRECHARGE)
              ) 
             counter_db <= counter;
 
@@ -101,9 +104,12 @@ always @(posedge CLK or negedge NRST)
             
         if (state == IDLE && (next_state == WRITE  || next_state == READ))
             ACTIVE_flag <= 0;
-        //мб надо будет добавить условие с ? и приравнивать к x or z
-        //if ( RDY ) 
-        //     DOUT <= DQ;
+
+        if (state == WRITE || state == READ)
+            PRECHARGE_flag <= 1;
+        if (state == PRECHARGE)
+            PRECHARGE_flag <= 0;
+
         end
 
     end
@@ -147,17 +153,20 @@ always @(*)
                                 next_state = MRS;
 
                             //preapring row access
-                            if ( (RE_IN || WE_IN) && !ACTIVE_flag ) begin
+                            if ( (RE_IN || WE_IN) && !ACTIVE_flag && ((counter - counter_db) > RP_TIME - 1) ) begin
                                 next_state = ACTIVE;
                             end
                             //leap to READ comand after activation and holding nop
-                            if ( RE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME + 1))
+                            if ( RE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME))
                                 next_state = READ;
 
                             //leap to WRITE comand after activation and holding nop
-                            if ( WE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME + 1))
+                            if ( WE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME))
                                 next_state = WRITE;
 
+                            if ( PRECHARGE_flag && ((counter - counter_db) > DPL_TIME))
+                                next_state = PRECHARGE;
+                            
                             //NOP command //in IDLE state operating NOP command
                             ADR_OUT  = 13'bz;
                             BDR_OUT = 2'bz;
@@ -166,7 +175,7 @@ always @(*)
                             RAS = 1;
                             CAS = 1;
                             WE_OUT = 1;
-                            if (ACTIVE_flag || init_flag || (counter >= REFR_TIME ))
+                            if (ACTIVE_flag || init_flag || PRECHARGE_flag || (counter >= REFR_TIME ))
                                 RDY = 0;
                             else
                                 RDY = 1;
@@ -266,8 +275,8 @@ always @(*)
             end
             
             READ:           begin
-                            if ( (counter - counter_db) >= DPL_TIME )
-                            next_state = PRECHARGE;
+                            if ( (counter - counter_db) >= DPL_TIME - 2)
+                            next_state = IDLE;
                             
                             //READ command
                             BDR_OUT = BDR_IN;
@@ -283,8 +292,8 @@ always @(*)
             end 
 
             WRITE:          begin
-                            if ( (counter - counter_db) >= DPL_TIME )
-                                next_state = PRECHARGE;
+                            if ( (counter - counter_db) > DPL_TIME - 2)
+                                next_state = IDLE;
                             
                             //WRITE command
                             BDR_OUT = BDR_IN;
