@@ -15,7 +15,7 @@ parameter REFR_TIME = 9142000;      //cycles (< 64 ms), TIME_TO_REFRESH, 857 cyc
 parameter RP_TIME = 3;              //cycles (15 ns), REQUIRED_PRECHARGE_TIME
 parameter RC_TIME = 9;              //cycles (60 ns), REQUIRED_REFRESH_TIME
 parameter RCD_TIME = 3;
-parameter DPL_TIME = 2 + 1;             //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
+parameter DPL_TIME =  2;             //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
 localparam init_delay  =  14290;    // INIT_DELAY, пока без формул
 localparam REFR_TIME_width = $clog2(REFR_TIME);          //counter width due to refresh time
 
@@ -68,6 +68,7 @@ always @(posedge CLK or negedge NRST)
             init_flag   <= 1;
             MRS_flag    <= 0;
             ACTIVE_flag <= 0;
+            PRECHARGE_flag <= 0;
             counter     <= 0;
             counter_db  <= 0;
             end
@@ -153,7 +154,7 @@ always @(*)
                                 next_state = MRS;
 
                             //preapring row access
-                            if ( (RE_IN || WE_IN) && !ACTIVE_flag && ((counter - counter_db) > RP_TIME - 1) ) begin
+                            if ( (RE_IN || WE_IN) && !ACTIVE_flag && !PRECHARGE_flag && ((counter - counter_db) >= RP_TIME) ) begin
                                 next_state = ACTIVE;
                             end
                             //leap to READ comand after activation and holding nop
@@ -164,7 +165,7 @@ always @(*)
                             if ( WE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME))
                                 next_state = WRITE;
 
-                            if ( PRECHARGE_flag && ((counter - counter_db) > DPL_TIME))
+                            if ( PRECHARGE_flag && ((counter - counter_db) > DPL_TIME + 2))
                                 next_state = PRECHARGE;
                             
                             //NOP command //in IDLE state operating NOP command
@@ -275,7 +276,7 @@ always @(*)
             end
             
             READ:           begin
-                            if ( (counter - counter_db) >= DPL_TIME - 2)
+                            if ( (counter - counter_db) > DPL_TIME - 2)
                             next_state = IDLE;
                             
                             //READ command

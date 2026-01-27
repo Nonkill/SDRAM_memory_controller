@@ -92,19 +92,18 @@ task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8
                 //@(posedge CLK);
                 //@ (posedge RDY);
                         if (addr_collumn < 511) begin
-
-                                repeat (6) @(posedge CLK);
                                 //$display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
+                                mem_ACTIVE_select_row (ADR_IN);
                                 WE_IN = 1;
                                 RE_IN = 0;
                                 DIN = '0;
                                 //DIN = $urandom();
                                 mem_double [BDR_IN][addr_row][addr_collumn] = DIN;
+                                repeat (3) @(posedge CLK);
                                 mem_WRITE_collumn (ADR_IN);
                                 //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
-                                repeat (7) @(posedge CLK);
-                                mem_ACTIVE_select_row (ADR_IN);
+                                repeat (12) @(posedge CLK);
 
                         end
                         else begin
