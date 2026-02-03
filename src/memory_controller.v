@@ -49,6 +49,7 @@ localparam [3:0] MRS            =  4'b0101;
 localparam [3:0] ACTIVE         =  4'b0110;
 localparam [3:0] READ           =  4'b0111;
 localparam [3:0] WRITE          =  4'b1000;
+localparam [3:0] BST            =  4'b1001;
 
 
 reg [3:0] state, next_state;
@@ -106,7 +107,7 @@ always @(posedge CLK or negedge NRST)
         if (state == IDLE && (next_state == WRITE  || next_state == READ))
             ACTIVE_flag <= 0;
 
-        if (state == WRITE || state == READ)
+        if (state == BST || state == READ)
             PRECHARGE_flag <= 1;
         if (state == PRECHARGE)
             PRECHARGE_flag <= 0;
@@ -187,9 +188,7 @@ always @(*)
                                     next_state = IDLE;
                             
                             //PRECHARGE command
-                            ADR_OUT [9:0] = 10'bz;
-                            ADR_OUT [12:11] = 2'bz;
-                            ADR_OUT [10] = 0;
+                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 10'bz };
                             BDR_OUT = BDR_IN;
                             CKE = 1;
                             CS = 0;
@@ -209,9 +208,7 @@ always @(*)
                             end
                             
                             //PRECHRGE_ALL command
-                            ADR_OUT [9:0] = 10'bz;
-                            ADR_OUT [12:11] = 2'bz;
-                            ADR_OUT [10] = 1;
+                            ADR_OUT [12:0] = { 2'bz, 1'b1 , 10'bz };
                             BDR_OUT = 2'bz;
                             CKE = 1;
                             CS =  0;
@@ -281,9 +278,7 @@ always @(*)
                             
                             //READ command
                             BDR_OUT = BDR_IN;
-                            ADR_OUT [9:0] = ADR_IN [9:0];
-                            ADR_OUT [10] = 0;
-                            ADR_OUT [12:11] = 2'bz;
+                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 1'bz, ADR_IN [8:0] };
                             CKE = 1;
                             CS = 0;
                             RAS = 1;
@@ -293,14 +288,11 @@ always @(*)
             end 
 
             WRITE:          begin
-                            if ( (counter - counter_db) > DPL_TIME - 2)
-                                next_state = IDLE;
+                            next_state = BST;
                             
                             //WRITE command
                             BDR_OUT = BDR_IN;
-                            ADR_OUT [9:0] = ADR_IN [9:0];
-                            ADR_OUT [10] = 0;
-                            ADR_OUT [12:11] = 2'bz;
+                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 1'bz, ADR_IN [8:0] };
                             CKE = 1;
                             CS = 0;
                             RAS = 1;
@@ -309,6 +301,19 @@ always @(*)
                             RDY = 0;
             end
             
+            BST:       begin
+                            next_state = IDLE;
+                            //WRITE command
+                            BDR_OUT = BDR_IN;
+                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 1'bz, ADR_IN [8:0] };
+                            CKE = 1;
+                            CS = 0;
+                            RAS = 1;
+                            CAS = 1;
+                            WE_OUT = 0;
+                            RDY = 0;
+            end
+
             default:        begin
                             next_state = IDLE;
                             

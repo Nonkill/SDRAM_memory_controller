@@ -49,6 +49,44 @@ R0
 R1
 R0
 R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
 !s12c _opt2
 R1
 Z2 !s12c _opt1
@@ -106,11 +144,11 @@ R1
 cModel Technology
 Z3 dD:/questasim64_2024.1/examples
 T_opt
-!s110 1769509191
-VzZiA?L6P>`U3WK]H1o6om3
+!s110 1770163062
+Vl@K;J2bH_Uc<D;fEj6?@d2
 04 20 4 work memory_controller_tb fast 0
 Z4 04 4 4 work glbl fast 0
-=1-30d0423ce5f8-69789145-2d9-461c
+=1-30d0423ce5f8-69828b75-3b8-45e8
 R1
 Z5 !s12f OEM100
 Z6 !s12b OEM100
@@ -152,7 +190,7 @@ R3
 vglbl
 2D:/SV_projects/glbl.v
 Z11 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
-Z12 !s110 1769509186
+Z12 !s110 1770163058
 !i10b 1
 !s100 Q3Nm3[7<U5o6TNGLUoT`[2
 I`QRPX7Lh;E0UW?f7`DIDE0
@@ -161,19 +199,19 @@ Z13 dD:/SV_projects/SDRAM controller/msim
 w1381684720
 8D:/SV_projects/glbl.v
 FD:/SV_projects/glbl.v
-!i122 308
+!i122 410
 L0 5 62
 Z14 VDg1SIo80bB@j0V0VzS_@n1
 Z15 OL;L;2024.1;79
 r1
 !s85 0
 31
-!s108 1769509186.000000
+Z16 !s108 1770163058.000000
 !s107 D:/SV_projects/glbl.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|D:/SV_projects/glbl.v|
 !i113 0
-Z16 o+acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-Z17 tSvlog 1 CvgOpt 0
+Z17 o+acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z18 tSvlog 1 CvgOpt 0
 vIS42S16160
 2../src/42s16160.v
 R11
@@ -186,19 +224,19 @@ R13
 w1762859897
 8../src/42s16160.v
 F../src/42s16160.v
-!i122 307
+!i122 409
 L0 14 938
 R14
 R15
 r1
 !s85 0
 31
-Z18 !s108 1769509185.000000
+R16
 !s107 ../src/42s16160.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/42s16160.v|
 !i113 0
-R16
 R17
+R18
 n@i@s42@s16160
 vLFSR_16
 2../src/LFSR_16.v
@@ -223,8 +261,8 @@ Z20 !s108 1765547945.000000
 !s107 ../src/LFSR_16.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/LFSR_16.v|
 !i113 0
-R16
 R17
+R18
 n@l@f@s@r_16
 vLFSR_16_tb
 Z21 2../src/LFSR_16_tb.sv
@@ -251,8 +289,8 @@ R20
 Z27 !s107 ../src/LFSR_16_tb.sv|
 Z28 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/LFSR_16_tb.sv|
 !i113 0
-R16
 R17
+R18
 n@l@f@s@r_16_tb
 XLFSR_16_tb_sv_unit
 R21
@@ -278,8 +316,8 @@ R20
 R27
 R28
 !i113 0
-R16
 R17
+R18
 n@l@f@s@r_16_tb_sv_unit
 vLFSR_3
 2../src/LFSR_3.v
@@ -304,8 +342,8 @@ Z31 !s108 1765547664.000000
 !s107 ../src/LFSR_3.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/LFSR_3.v|
 !i113 0
-R16
 R17
+R18
 n@l@f@s@r_3
 vLFSR_3_tb
 Z32 2../src/LFSR_3_tb.sv
@@ -332,8 +370,8 @@ R31
 Z36 !s107 ../src/LFSR_3_tb.sv|
 Z37 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/LFSR_3_tb.sv|
 !i113 0
-R16
 R17
+R18
 n@l@f@s@r_3_tb
 XLFSR_3_tb_sv_unit
 R32
@@ -359,63 +397,63 @@ R31
 R36
 R37
 !i113 0
-R16
 R17
+R18
 n@l@f@s@r_3_tb_sv_unit
 vmemory_controller
 2../src/memory_controller.v
 R11
-Z38 !s110 1769509185
+R12
 !i10b 1
-!s100 OeZ[AWLUBXD<9j^0IaXZR1
-IXh6SDfYiJ^[E:f68>7MJI0
+!s100 dddgKlW^]f]gd6_W`mJJ81
+IbS3O9]Ioga^czh0]PO6`b3
 S1
 R13
-w1769509169
+w1770160726
 8../src/memory_controller.v
 F../src/memory_controller.v
-!i122 306
-L0 1 329
+!i122 408
+L0 1 334
 R14
 R15
 r1
 !s85 0
 31
-R18
+Z38 !s108 1770163057.000000
 !s107 ../src/memory_controller.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/memory_controller.v|
 !i113 0
-R16
 R17
+R18
 vmemory_controller_tb
 2../src/test_bench.sv
 R11
-R38
+Z39 !s110 1770163057
 !i10b 1
-!s100 :m>Ynk3k;Y<LaCnPBC;Ez3
-I<C5H8SgQU]J[VYMeb5OzT0
+!s100 fggA4mNYHICBVQ6FGiF>c3
+IV6fmaZTOLiV92iSY=oIj80
 S1
 R13
-w1769508149
+w1770163053
 8../src/test_bench.sv
 F../src/test_bench.sv
-!i122 304
-L0 3 221
+!i122 406
+L0 3 215
 R14
 R15
 r1
 !s85 0
 31
-R18
+R38
 !s107 ../src/test_bench.sv|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/test_bench.sv|
 !i113 0
-R16
 R17
+R18
 vtop
 2../src/top.v
 R11
-R38
+R39
 !i10b 1
 !s100 j7TSR]_FRFBa_cHl?hUjS0
 IiZEnCdZWUZCbO=T`=J@O`0
@@ -424,16 +462,16 @@ R13
 w1764090668
 8../src/top.v
 F../src/top.v
-!i122 305
+!i122 407
 L0 1 64
 R14
 R15
 r1
 !s85 0
 31
-R18
+R38
 !s107 ../src/top.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/top.v|
 !i113 0
-R16
 R17
+R18

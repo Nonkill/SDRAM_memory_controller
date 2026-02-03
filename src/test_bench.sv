@@ -110,21 +110,19 @@ task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8
 
                                 if (&addr_row && (addr_collumn >= 511))
                                         BDR_IN = BDR_IN + 1;
-                                
                                 addr_row += 1;
                                 addr_collumn += 1;
-                                repeat (4) @(posedge CLK);
-                                //$display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
+                                mem_ACTIVE_select_row (ADR_IN);
                                 WE_IN = 1;
                                 RE_IN = 0;
                                 DIN = '0;
                                 //DIN = $urandom();
                                 mem_double [BDR_IN][addr_row][addr_collumn] = DIN;
+                                repeat (3) @(posedge CLK);
                                 mem_WRITE_collumn (ADR_IN);
                                 //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
-                                repeat (7) @(posedge CLK);
-                                mem_ACTIVE_select_row (ADR_IN);
+                                repeat (12) @(posedge CLK);
 
                         end
 
@@ -134,21 +132,20 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
 
                 //@(posedge CLK);
                         if (addr_collumn < 511) begin
-
-                                repeat (5) @(posedge CLK);
-                                $display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
+                                
+                                mem_ACTIVE_select_row (ADR_IN);
+                                //$display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
                                 WE_IN = 0;
                                 RE_IN = 1;
-                                mem_WRITE_collumn (ADR_IN);
-                                $display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
-                                addr_collumn += 1;
                                 repeat (3) @(posedge CLK);
+                                mem_WRITE_collumn (ADR_IN);
+                                //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
+                                addr_collumn += 1;
                                 if ( DQ != mem_double [BDR_IN][addr_row][addr_collumn]) begin
                                         $error ("Found error in cell [%d][%d][%d]", BDR_IN, addr_row, addr_collumn);
                                         errors += 1;
                                 end
-                                repeat (3) @(posedge CLK);
-                                mem_ACTIVE_select_row (ADR_IN);
+                                repeat (12) @(posedge CLK);
 
                         end
                         else begin
@@ -164,12 +161,11 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
                                 mem_WRITE_collumn (ADR_IN);
                                 $display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
-                                repeat (3) @(posedge CLK);
                                 if ( DQ != mem_double [BDR_IN][addr_row][addr_collumn]) begin
                                         $error ("Found error in cell [%d][%d][%d]", BDR_IN, addr_row, addr_collumn);
                                         errors += 1;
                                 end
-                                repeat (3) @(posedge CLK);
+                                repeat (7) @(posedge CLK);
                                 mem_ACTIVE_select_row (ADR_IN);
 
                         end
@@ -183,16 +179,14 @@ always begin
 
 initial begin
         
+        #35 CLK = 0; 
         //reseting
-        #50;
+        #500;
         NRST = 0;
       #2000;
         NRST = 1;
+        
 
-        WE_IN =  0;
-        RE_IN =  0;
-        DIN   = '0;
-        BDR_IN = 0;
         addr_row = 0;
         addr_collumn = 0;
 
