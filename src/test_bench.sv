@@ -96,8 +96,8 @@ task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8
                                 mem_ACTIVE_select_row (ADR_IN);
                                 WE_IN = 1;
                                 RE_IN = 0;
-                                DIN = '0;
-                                //DIN = $urandom();
+                                //DIN = '0;
+                                DIN = $urandom();
                                 mem_double [BDR_IN][addr_row][addr_collumn] = DIN;
                                 repeat (3) @(posedge CLK);
                                 mem_WRITE_collumn (ADR_IN);
@@ -115,8 +115,8 @@ task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8
                                 mem_ACTIVE_select_row (ADR_IN);
                                 WE_IN = 1;
                                 RE_IN = 0;
-                                DIN = '0;
-                                //DIN = $urandom();
+                                //DIN = '0;
+                                DIN = $urandom();
                                 mem_double [BDR_IN][addr_row][addr_collumn] = DIN;
                                 repeat (3) @(posedge CLK);
                                 mem_WRITE_collumn (ADR_IN);
@@ -137,7 +137,7 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
                                 //$display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
                                 WE_IN = 0;
                                 RE_IN = 1;
-                                repeat (3) @(posedge CLK);
+                                repeat (7) @(posedge CLK);
                                 mem_WRITE_collumn (ADR_IN);
                                 //$display("[%0t] ADR_IN changed to addr_collumn: %h", $time, addr_collumn);
                                 addr_collumn += 1;
@@ -145,7 +145,7 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
                                         $error ("Found error in cell [%d][%d][%d]", BDR_IN, addr_row, addr_collumn);
                                         errors += 1;
                                 end
-                                repeat (12) @(posedge CLK);
+                                repeat (8) @(posedge CLK);
 
                         end
                         else begin
@@ -154,7 +154,7 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
                                 
                                 addr_row += 1;
                                 addr_collumn += 1;
-                                repeat (5) @(posedge CLK);
+                                repeat (7) @(posedge CLK);
                                 $display("[%0t] ADR_IN set to addr_row: %h", $time, addr_row);
                                 WE_IN = 0;
                                 RE_IN = 1;
@@ -165,7 +165,7 @@ task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:
                                         $error ("Found error in cell [%d][%d][%d]", BDR_IN, addr_row, addr_collumn);
                                         errors += 1;
                                 end
-                                repeat (7) @(posedge CLK);
+                                repeat (8) @(posedge CLK);
                                 mem_ACTIVE_select_row (ADR_IN);
 
                         end
@@ -186,7 +186,7 @@ initial begin
       #2000;
         NRST = 1;
         
-
+        BDR_IN = 0;
         addr_row = 0;
         addr_collumn = 0;
 

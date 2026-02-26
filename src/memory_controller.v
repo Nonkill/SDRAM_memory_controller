@@ -107,7 +107,7 @@ always @(posedge CLK or negedge NRST)
         if (state == IDLE && (next_state == WRITE  || next_state == READ))
             ACTIVE_flag <= 0;
 
-        if (state == BST || state == READ)
+        if (state == BST)
             PRECHARGE_flag <= 1;
         if (state == PRECHARGE)
             PRECHARGE_flag <= 0;
@@ -273,8 +273,7 @@ always @(*)
             end
             
             READ:           begin
-                            if ( (counter - counter_db) > DPL_TIME - 2)
-                            next_state = IDLE;
+                            next_state = BST;
                             
                             //READ command
                             BDR_OUT = BDR_IN;
