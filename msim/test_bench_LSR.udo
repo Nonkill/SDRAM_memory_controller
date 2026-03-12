@@ -1,7 +1,14 @@
-add wave -noupdate -format Logic /CLK
-add wave -noupdate -format Logic /NRST
+add wave -noupdate -format Logic /r_clk
+add wave -noupdate -format Logic /r_reset
+add wave -noupdate -format Logic /r_mem_rdy
+add wave -noupdate -format Logic /r_di
 
-add wave -noupdate -format Logic /DUT/r_shiftreg
+add wave -noupdate -format Logic /march_inst/RDY
+add wave -noupdate -format Logic /march_inst/FLAG
+add wave -noupdate -format Logic /march_inst/ADDR_ERR
+add wave -noupdate -format Logic /march_inst/VALUE_ERR
+add wave -noupdate -format Logic /march_inst/VALUE_EXP
+add wave -noupdate -format Logic /march_inst/
 
 
 

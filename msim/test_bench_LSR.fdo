@@ -6,9 +6,9 @@ set src_dir     $PROJ/src
 vlib $sim_dir/work
 vmap WORK $sim_dir/work
 
-vlog +acc $src_dir/LFSR_16.v
-vlog +acc $src_dir/LFSR_16_tb.sv
+vlog +acc $src_dir/march.v
+vlog +acc $src_dir/test_bench_march.v
 
 vlog +acc D:/SV_projects/glbl.v
 
-vsim -t 100ps -L simprims_ver -lib work LFSR_16_tb glbl
+vsim -t 100ps -L simprims_ver -lib work test_bench_march glbl

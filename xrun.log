@@ -1,0 +1,1484 @@
+xrun(64): 19.09-s006: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	19.09-s006: Started on Mar 12, 2026 at 19:51:20 MSK
+xrun
+	-hal
+	-f filelist.f
+		-access +rwc
+		-sv
+		/home/sergei/Projects/Artem/src/test_bench_march.v
+		/home/sergei/Projects/Artem/src/march.v
+file: /home/sergei/Projects/Artem/src/test_bench_march.v
+	module worklib.test_bench_march:v
+		errors: 0, warnings: 0
+file: /home/sergei/Projects/Artem/src/march.v
+	module worklib.march:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Top level design units:
+		$unit_0x7bab568f
+		test_bench_march
+xmelab: *W,DSEMEL: This SystemVerilog design will be simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.march:v <0x27bdfacc>
+			streams:  22, words: 14946
+		worklib.test_bench_march:v <0x2e459635>
+			streams:  12, words:  5130
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                   Instances  Unique
+		Modules:                   2       2
+		Resolved nets:             1       1
+		Registers:                12      12
+		Scalar wires:             47       -
+		Vectored wires:            9       -
+		Always blocks:             9       9
+		Initial blocks:            6       6
+		Cont. assignments:         7      42
+		Pseudo assignments:        4       4
+		Compilation units:         1       1
+		Simulation timescale:  100ps
+	Writing initial simulation snapshot: worklib.test_bench_march:v
+hal(64): 19.09-s006: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+hal: Options:   -cdslib ./xcelium.d/run.lnx8664.19.09.d/cds.lib -logfile xrun.log -f /home/sergei/Projects/Artem/Simulation/xcelium.d/run.lnx8664.19.09.d/hal.args .
+hal: Snapshot:  worklib.test_bench_march:v.
+hal: Workspace: /home/sergei/Projects/Artem/Simulation.
+hal: Date: Thu Mar 12 19:51:23 MSK 2026.
+
+hal: Running on elaborated SNAPSHOT.....
+
+  ==========================================================================
+Performing lint checks 
+
+halcheck(64): 19.09-s006: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+visadev(64): 19.09-s006: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+module test_bench_march;
+|
+halcheck: *W,NEEDIO (../src/test_bench_march.v,19|0): Top-level module 'test_bench_march' has no inputs/outputs/inouts.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'A' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'DO' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'WE' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'RE' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'RDY' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'FLAG' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'ADDR_ERR' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'VALUE_ERR' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+    march_inst
+|
+halcheck: *W,UNCONN (../src/test_bench_march.v,57|0): Output port 'VALUE_EXP' defined in design-unit 'march' is not connected in its instance 'march_inst'.
+`timescale 1 ns/100 ps
+|
+halcheck: *N,CDNOTE (../src/test_bench_march.v,16|0): The compiler directive '`timescale' is used in the RTL.
+`default_nettype none
+|
+halcheck: *N,CDNOTE (../src/test_bench_march.v,17|0): The compiler directive '`default_nettype' is used in the RTL.
+reg     [ 15 :  0 ] r_di = 16'b0;
+|
+halcheck: *W,BITUNS (../src/test_bench_march.v,27|0): Not all bits of constant '16'b0' are explicitly specified.
+halcheck: (../src/test_bench_march.v,27): Constant extended by 15 bits to -> 16'b(000000000000000)0.
+        .NRESET                     (r_reset[8]),       //  in, u[ 1], Async. negedge reset
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,60|0): The HDL source line is 91 characters, which exceeds the recommended length of 80 characters.
+        .MEM_RDY                    (r_mem_rdy),        //  in, u[ 1], Memory controller ready
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,61|0): The HDL source line is 94 characters, which exceeds the recommended length of 80 characters.
+        .DI                         (r_di),             //  in, u[16], Data from RAM
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,62|0): The HDL source line is 84 characters, which exceeds the recommended length of 80 characters.
+        .DO                         (),                 // out, u[16], Data to RAM
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,64|0): The HDL source line is 82 characters, which exceeds the recommended length of 80 characters.
+        .WE                         (),                 // out, u[16], Write enable for memory
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,65|0): The HDL source line is 94 characters, which exceeds the recommended length of 80 characters.
+        .RE                         (),                 // out, u[16], Read enable for memory
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,66|0): The HDL source line is 93 characters, which exceeds the recommended length of 80 characters.
+        .FLAG                       (),                 // out, u[ 1], error flag
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,68|0): The HDL source line is 81 characters, which exceeds the recommended length of 80 characters.
+        .ADDR_ERR                   (),                 // out, u[16], address of error
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,69|0): The HDL source line is 87 characters, which exceeds the recommended length of 80 characters.
+        .VALUE_ERR                  (),                 // out, u[ 1], value of error
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,70|0): The HDL source line is 85 characters, which exceeds the recommended length of 80 characters.
+        .VALUE_EXP                  ()                 // out, u[ 1], expected value
+|
+halcheck: *W,MAXLEN (../src/test_bench_march.v,71|0): The HDL source line is 84 characters, which exceeds the recommended length of 80 characters.
+reg     [  8 :  0 ] r_reset = 9'b011111111;
+|
+halcheck: *W,STYVAL (../src/test_bench_march.v,23|0): Numeric value '8' used for identifier 'r_reset'. Use constants to avoid portability issues.
+reg     [  8 :  0 ] r_reset = 9'b011111111;
+|
+halcheck: *E,RTLINI (../src/test_bench_march.v,23|0): A variable/signal 'r_reset' in an RTL description is initialized in its declaration.
+reg                 r_clk   = 1'b0;
+|
+halcheck: *E,RTLINI (../src/test_bench_march.v,24|0): A variable/signal 'r_clk' in an RTL description is initialized in its declaration.
+reg                 r_mem_rdy = 1'b0;
+|
+halcheck: *E,RTLINI (../src/test_bench_march.v,26|0): A variable/signal 'r_mem_rdy' in an RTL description is initialized in its declaration.
+reg     [ 15 :  0 ] r_di = 16'b0;
+|
+halcheck: *W,STYVAL (../src/test_bench_march.v,27|0): Numeric value '15' used for identifier 'r_di'. Use constants to avoid portability issues.
+reg     [ 15 :  0 ] r_di = 16'b0;
+|
+halcheck: *E,RTLINI (../src/test_bench_march.v,27|0): A variable/signal 'r_di' in an RTL description is initialized in its declaration.
+parameter PERIOD = 7;
+|
+halcheck: *W,PRMVAL (../src/test_bench_march.v,21|0): Bit width not specified for parameter 'PERIOD'.
+initial begin
+|
+halcheck: *W,NOBLKN (../src/test_bench_march.v,30|0): Each block should be labeled with a meaningful name.
+    always @(posedge r_clk)
+|
+halcheck: *W,NBGEND (../src/test_bench_march.v,36|0): Missing begin/end statement in the 'always' block.
+        if(~r_reset[8])
+|
+halcheck: *W,NBGEND (../src/test_bench_march.v,37|0): Missing begin/end statement in the 'if' block.
+        if(~r_reset[8])
+|
+halcheck: *W,LOGNEG (../src/test_bench_march.v,37|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_reset <= r_reset - 9'd1;
+|
+halcheck: *W,LRGOPR (../src/test_bench_march.v,38|0): Arithmetic or relational operation performed on large operands in module/design-unit test_bench_march.
+begin
+|
+halcheck: *W,NOBLKN (../src/test_bench_march.v,42|0): Each block should be labeled with a meaningful name.
+    #10;
+|
+halcheck: *W,EMPSTM (../src/test_bench_march.v,45|0): Module 'test_bench_march' contains an empty statement.
+    #1;
+|
+halcheck: *W,EMPSTM (../src/test_bench_march.v,48|0): Module 'test_bench_march' contains an empty statement.
+module march
+|
+halcheck: *N,PRTCNT (../src/march.v,52|0): Module/Entity 'march' contains '13' ports.
+halcheck: (../src/march.v,52): Number of Input ports: 4.
+halcheck: (../src/march.v,52): Number of Output ports: 9.
+`timescale 1 ns/100 ps
+|
+halcheck: *N,CDNOTE (../src/march.v,16|0): The compiler directive '`timescale' is used in the RTL.
+`default_nettype none
+|
+halcheck: *N,CDNOTE (../src/march.v,17|0): The compiler directive '`default_nettype' is used in the RTL.
+        input   wire                NRESET,              //  in, u[ 1 ], Async. negedge reset
+|
+halcheck: *W,MAXLEN (../src/march.v,55|0): The HDL source line is 93 characters, which exceeds the recommended length of 80 characters.
+        input   wire                MEM_RDY,             //  in, u[ 1 ], Memory controller ready
+|
+halcheck: *W,MAXLEN (../src/march.v,57|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+        input   wire    [ 15 :  0 ] DI,                  //  in, u[ 16 ], Data from RAM
+|
+halcheck: *W,MAXLEN (../src/march.v,59|0): The HDL source line is 87 characters, which exceeds the recommended length of 80 characters.
+        output  wire    [ 15 :  0 ] A,                   // out, u[ 16 ], Address
+|
+halcheck: *W,MAXLEN (../src/march.v,61|0): The HDL source line is 81 characters, which exceeds the recommended length of 80 characters.
+        output  wire    [ 15 :  0 ] DO,                  // out, u[ 16 ], Data to RAM
+|
+halcheck: *W,MAXLEN (../src/march.v,62|0): The HDL source line is 85 characters, which exceeds the recommended length of 80 characters.
+        output  wire    [ 15 :  0 ] WE,                  // out, u[ 16 ], Write enable for memory
+|
+halcheck: *W,MAXLEN (../src/march.v,63|0): The HDL source line is 97 characters, which exceeds the recommended length of 80 characters.
+        output  wire    [ 15 :  0 ] RE,                  // out, u[ 16 ], Read enable for memory
+|
+halcheck: *W,MAXLEN (../src/march.v,64|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+        output  wire                FLAG,                // out, u[ 1 ],  error flag
+|
+halcheck: *W,MAXLEN (../src/march.v,67|0): The HDL source line is 84 characters, which exceeds the recommended length of 80 characters.
+        output  wire                ADDR_ERR,            // out, u[ 16 ], address of error
+|
+halcheck: *W,MAXLEN (../src/march.v,68|0): The HDL source line is 90 characters, which exceeds the recommended length of 80 characters.
+        output  wire                VALUE_ERR,           // out, u[ 1 ],  value of error
+|
+halcheck: *W,MAXLEN (../src/march.v,69|0): The HDL source line is 88 characters, which exceeds the recommended length of 80 characters.
+        output  wire                VALUE_EXP           // out, u[ 1 ],  expected value
+|
+halcheck: *W,MAXLEN (../src/march.v,70|0): The HDL source line is 87 characters, which exceeds the recommended length of 80 characters.
+reg     [ COUNTER_MSB :  0 ] r_counter;      // [16:0] - full memory check, [11:0] - 2048 cells check
+|
+halcheck: *W,MAXLEN (../src/march.v,93|0): The HDL source line is 101 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_addr        = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,120|0): The HDL source line is 93 characters, which exceeds the recommended length of 80 characters.
+assign w_sclr_r_addr      = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,121|0): The HDL source line is 93 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_counter     = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,122|0): The HDL source line is 93 characters, which exceeds the recommended length of 80 characters.
+assign w_sclr_r_counter   = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,123|0): The HDL source line is 93 characters, which exceeds the recommended length of 80 characters.
+assign RE                 = (r_state == READ_WAIT)                                ? 1'b0 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,127|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_rdy         = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,128|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_rdy              = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,129|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_flag        = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,130|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_flag             = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b0 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,131|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_rdy         = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,132|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_rdy              = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,133|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_flag        = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,134|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_flag             = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,135|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_addr_error  = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,136|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_value_error = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,137|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_value       = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,138|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_addr        = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,139|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_sclr_r_addr      = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,140|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_en_r_counter     = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,141|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+assign w_sclr_r_counter   = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,MAXLEN (../src/march.v,142|0): The HDL source line is 96 characters, which exceeds the recommended length of 80 characters.
+`resetall
+|
+halcheck: *N,CDNOTE (../src/march.v,296|0): The compiler directive '`resetall' is used in the RTL.
+        input   wire    [ 15 :  0 ] DI,                  //  in, u[ 16 ], Data from RAM
+|
+halcheck: *W,STYVAL (../src/march.v,59|0): Numeric value '15' used for identifier 'DI'. Use constants to avoid portability issues.
+        output  wire    [ 15 :  0 ] A,                   // out, u[ 16 ], Address
+|
+halcheck: *W,STYVAL (../src/march.v,61|0): Numeric value '15' used for identifier 'A'. Use constants to avoid portability issues.
+        output  wire    [ 15 :  0 ] DO,                  // out, u[ 16 ], Data to RAM
+|
+halcheck: *W,CKEYWD (../src/march.v,62|0): C/C++ reserved word 'DO' used as an identifier or label.
+        output  wire    [ 15 :  0 ] DO,                  // out, u[ 16 ], Data to RAM
+|
+halcheck: *W,STYVAL (../src/march.v,62|0): Numeric value '15' used for identifier 'DO'. Use constants to avoid portability issues.
+        output  wire    [ 15 :  0 ] WE,                  // out, u[ 16 ], Write enable for memory
+|
+halcheck: *W,STYVAL (../src/march.v,63|0): Numeric value '15' used for identifier 'WE'. Use constants to avoid portability issues.
+        output  wire    [ 15 :  0 ] RE,                  // out, u[ 16 ], Read enable for memory
+|
+halcheck: *W,STYVAL (../src/march.v,64|0): Numeric value '15' used for identifier 'RE'. Use constants to avoid portability issues.
+        input   wire                CLK,                 //  in, u[ 1 ], Clock
+|
+halcheck: *W,LCVARN (../src/march.v,54|0): Net name 'CLK' uses uppercase characters.
+        input   wire                NRESET,              //  in, u[ 1 ], Async. negedge reset
+|
+halcheck: *W,LCVARN (../src/march.v,55|0): Net name 'NRESET' uses uppercase characters.
+        input   wire                MEM_RDY,             //  in, u[ 1 ], Memory controller ready
+|
+halcheck: *W,LCVARN (../src/march.v,57|0): Net name 'MEM_RDY' uses uppercase characters.
+        input   wire    [ 15 :  0 ] DI,                  //  in, u[ 16 ], Data from RAM
+|
+halcheck: *W,LCVARN (../src/march.v,59|0): Net name 'DI' uses uppercase characters.
+        output  wire    [ 15 :  0 ] A,                   // out, u[ 16 ], Address
+|
+halcheck: *W,LCVARN (../src/march.v,61|0): Net name 'A' uses uppercase characters.
+        output  wire    [ 15 :  0 ] DO,                  // out, u[ 16 ], Data to RAM
+|
+halcheck: *W,LCVARN (../src/march.v,62|0): Net name 'DO' uses uppercase characters.
+        output  wire    [ 15 :  0 ] WE,                  // out, u[ 16 ], Write enable for memory
+|
+halcheck: *W,LCVARN (../src/march.v,63|0): Net name 'WE' uses uppercase characters.
+        output  wire    [ 15 :  0 ] RE,                  // out, u[ 16 ], Read enable for memory
+|
+halcheck: *W,LCVARN (../src/march.v,64|0): Net name 'RE' uses uppercase characters.
+        output  wire                RDY,                 // out, u[ 1 ],  Ready
+|
+halcheck: *W,LCVARN (../src/march.v,66|0): Net name 'RDY' uses uppercase characters.
+        output  wire                FLAG,                // out, u[ 1 ],  error flag
+|
+halcheck: *W,LCVARN (../src/march.v,67|0): Net name 'FLAG' uses uppercase characters.
+        output  wire                ADDR_ERR,            // out, u[ 16 ], address of error
+|
+halcheck: *W,LCVARN (../src/march.v,68|0): Net name 'ADDR_ERR' uses uppercase characters.
+        output  wire                VALUE_ERR,           // out, u[ 1 ],  value of error
+|
+halcheck: *W,LCVARN (../src/march.v,69|0): Net name 'VALUE_ERR' uses uppercase characters.
+        output  wire                VALUE_EXP           // out, u[ 1 ],  expected value
+|
+halcheck: *W,LCVARN (../src/march.v,70|0): Net name 'VALUE_EXP' uses uppercase characters.
+reg     [ 15 :  0 ]          r_addr;
+|
+halcheck: *W,STYVAL (../src/march.v,92|0): Numeric value '15' used for identifier 'r_addr'. Use constants to avoid portability issues.
+reg     [ 15 :  0 ]          r_addr_error;
+|
+halcheck: *W,STYVAL (../src/march.v,96|0): Numeric value '15' used for identifier 'r_addr_error'. Use constants to avoid portability issues.
+reg     [ 15 :  0 ]          r_value_error;
+|
+halcheck: *W,STYVAL (../src/march.v,97|0): Numeric value '15' used for identifier 'r_value_error'. Use constants to avoid portability issues.
+reg     [ 15 :  0 ]          r_value;
+|
+halcheck: *W,STYVAL (../src/march.v,98|0): Numeric value '15' used for identifier 'r_value'. Use constants to avoid portability issues.
+reg     [  4 :  0 ]          r_state;
+|
+halcheck: *W,STYVAL (../src/march.v,99|0): Numeric value '4' used for identifier 'r_state'. Use constants to avoid portability issues.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,154|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,155|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,155|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_addr <= 0;
+|
+halcheck: *W,IMPDTC (../src/march.v,156|0): Expression '0' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+            r_addr <= 0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,156|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+            if (w_en_r_addr)
+|
+halcheck: *W,DNGLEL (../src/march.v,158|0): Ambiguous else statement in the nested if statement. It is recommended to enclose the inner if statement in a begin/end block.
+            if (w_en_r_addr)
+|
+halcheck: *W,NBGEND (../src/march.v,158|0): Missing begin/end statement in the 'if' block.
+                if(w_sclr_r_addr)
+|
+halcheck: *W,NBGEND (../src/march.v,159|0): Missing begin/end statement in the 'if' block.
+                    r_addr <= 0;
+|
+halcheck: *W,IMPDTC (../src/march.v,160|0): Expression '0' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+                    r_addr <= 0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,160|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+                    r_addr = r_addr + 1;
+|
+halcheck: *W,IMPTYP (../src/march.v,162|0): Expression 'r_addr + 1' implicitly converted to type 'register' from type 'integer'.
+                    r_addr = r_addr + 1;
+|
+halcheck: *E,BLNBLK (../src/march.v,162|0): Signal 'r_addr' is assigned via both blocking and non-blocking assignments.
+halcheck: (../src/march.v,162): Blocking assignment to r_addr.
+halcheck: (../src/march.v,160): Non blocking assignment to r_addr.
+                    r_addr = r_addr + 1;
+|
+halcheck: *W,BLKSQB (../src/march.v,162|0): Blocking assignment encountered in a sequential block.
+                    r_addr = r_addr + 1;
+|
+halcheck: *W,POIASG (../src/march.v,162|0): The result of addition operation may lead to a potential overflow in module/design-unit march_inst.
+halcheck: (../src/march.v,162): LHS operand 'r_addr' is 16 bit(s), RHS operand 'r_addr + 1' is 32 bit(s).
+halcheck: (../src/march.v,162): Increase the size of LHS by 16 bit(s).
+                    r_addr = r_addr + 1;
+|
+halcheck: *W,RDBFAS (../src/march.v,162|0): Register 'r_addr', assigned using blocking assignment, is being read before getting assigned.
+                    r_addr = r_addr + 1;
+|
+halcheck: *W,LRGOPR (../src/march.v,162|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+                    r_addr = r_addr + 1;
+|
+halcheck: *W,UELOPR (../src/march.v,162|0): Unequal length operand in bit/arithmetic operator PLUS in module/design-unit march_inst.
+halcheck: (../src/march.v,162): LHS operand 'r_addr' is 16 bits, RHS operand '1' is 32 bits.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,155|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,165|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,166|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,166|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_counter <= 2046;
+|
+halcheck: *W,IMPDTC (../src/march.v,167|0): Expression '2046' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+            r_counter <= 2046;
+|
+halcheck: *W,TRUNCZ (../src/march.v,167|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+            r_counter <= 2046;
+|
+halcheck: *W,CONSBS (../src/march.v,167|0): Base ('d, 'b, 'h, 'o) not specified for constant 2046 in module/design-unit march_inst.
+            if (w_en_r_counter)
+|
+halcheck: *W,DNGLEL (../src/march.v,169|0): Ambiguous else statement in the nested if statement. It is recommended to enclose the inner if statement in a begin/end block.
+            if (w_en_r_counter)
+|
+halcheck: *W,NBGEND (../src/march.v,169|0): Missing begin/end statement in the 'if' block.
+                if(w_sclr_r_counter)
+|
+halcheck: *W,NBGEND (../src/march.v,170|0): Missing begin/end statement in the 'if' block.
+                    r_counter <= 2046;
+|
+halcheck: *W,IMPDTC (../src/march.v,171|0): Expression '2046' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+                    r_counter <= 2046;
+|
+halcheck: *W,TRUNCZ (../src/march.v,171|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+                    r_counter <= 2046;
+|
+halcheck: *W,CONSBS (../src/march.v,171|0): Base ('d, 'b, 'h, 'o) not specified for constant 2046 in module/design-unit march_inst.
+                    if (~r_counter[COUNTER_MSB])
+|
+halcheck: *W,NBGEND (../src/march.v,173|0): Missing begin/end statement in the 'if' block.
+                    if (~r_counter[COUNTER_MSB])
+|
+halcheck: *W,RDBFAS (../src/march.v,173|0): Register 'r_counter', assigned using blocking assignment, is being read before getting assigned.
+                    if (~r_counter[COUNTER_MSB])
+|
+halcheck: *W,LOGNEG (../src/march.v,173|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+                        r_counter = r_counter - 1;
+|
+halcheck: *W,IMPTYP (../src/march.v,174|0): Expression 'r_counter - 1' implicitly converted to type 'register' from type 'integer'.
+                        r_counter = r_counter - 1;
+|
+halcheck: *E,BLNBLK (../src/march.v,174|0): Signal 'r_counter' is assigned via both blocking and non-blocking assignments.
+halcheck: (../src/march.v,174): Blocking assignment to r_counter.
+halcheck: (../src/march.v,171): Non blocking assignment to r_counter.
+                        r_counter = r_counter - 1;
+|
+halcheck: *W,BLKSQB (../src/march.v,174|0): Blocking assignment encountered in a sequential block.
+                        r_counter = r_counter - 1;
+|
+halcheck: *W,POIASG (../src/march.v,174|0): The result of subtraction operation may lead to a potential overflow in module/design-unit march_inst.
+halcheck: (../src/march.v,174): LHS operand 'r_counter' is 12 bit(s), RHS operand 'r_counter - 1' is 32 bit(s).
+halcheck: (../src/march.v,174): Increase the size of LHS by 20 bit(s).
+                        r_counter = r_counter - 1;
+|
+halcheck: *W,RDBFAS (../src/march.v,174|0): Register 'r_counter', assigned using blocking assignment, is being read before getting assigned.
+                        r_counter = r_counter - 1;
+|
+halcheck: *W,LRGOPR (../src/march.v,174|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+                        r_counter = r_counter - 1;
+|
+halcheck: *W,UELOPR (../src/march.v,174|0): Unequal length operand in bit/arithmetic operator MINUS in module/design-unit march_inst.
+halcheck: (../src/march.v,174): LHS operand 'r_counter' is 12 bits, RHS operand '1' is 32 bits.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,166|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,177|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,178|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,178|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_addr_error <= 0;
+|
+halcheck: *W,IMPDTC (../src/march.v,179|0): Expression '0' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+            r_addr_error <= 0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,179|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+            if (w_en_r_addr_error)
+|
+halcheck: *W,NBGEND (../src/march.v,181|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,178|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,185|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,186|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,186|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_value_error <= 0;
+|
+halcheck: *W,IMPDTC (../src/march.v,187|0): Expression '0' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+            r_value_error <= 0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,187|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+            if (w_en_r_value_error)
+|
+halcheck: *W,NBGEND (../src/march.v,189|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,186|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,192|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,193|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,193|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_value <= 0;
+|
+halcheck: *W,IMPDTC (../src/march.v,194|0): Expression '0' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+            r_value <= 0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,194|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+            if (w_en_r_value)
+|
+halcheck: *W,NBGEND (../src/march.v,196|0): Missing begin/end statement in the 'if' block.
+                r_value <= VALUE;
+|
+halcheck: *W,IMPDTC (../src/march.v,197|0): Expression 'VALUE' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+                r_value <= VALUE;
+|
+halcheck: *W,TRUNCZ (../src/march.v,197|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,193|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,199|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,200|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,200|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_rdy <= 0;
+|
+halcheck: *W,IMPDTC (../src/march.v,201|0): Expression '0' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+            r_rdy <= 0;
+|
+halcheck: *W,INTTOB (../src/march.v,201|0): Assigning a 0 or 1 (32 bits) to a single-bit variable in module/design-unit march_inst.
+            r_rdy <= 0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,201|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+            if (w_en_r_rdy)
+|
+halcheck: *W,NBGEND (../src/march.v,203|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,200|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,207|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,208|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,208|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_flag <= 0;
+|
+halcheck: *W,IMPDTC (../src/march.v,209|0): Expression '0' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+            r_flag <= 0;
+|
+halcheck: *W,INTTOB (../src/march.v,209|0): Assigning a 0 or 1 (32 bits) to a single-bit variable in module/design-unit march_inst.
+            r_flag <= 0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,209|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+            if (w_en_r_flag)
+|
+halcheck: *W,NBGEND (../src/march.v,211|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,208|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+    always @(posedge CLK or negedge NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,216|0): Missing begin/end statement in the 'always' block.
+        if (~NRESET)
+|
+halcheck: *W,NBGEND (../src/march.v,217|0): Missing begin/end statement in the 'if' block.
+        if (~NRESET)
+|
+halcheck: *W,LOGNEG (../src/march.v,217|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+            r_state <= INIT_1;
+|
+halcheck: *W,PADMSB (../src/march.v,218|0): Constant '4'b0' will be left-padded by 1 '0' bits.
+                    INIT_1: 
+|
+halcheck: *W,UELCIT (../src/march.v,222|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    INIT_2:
+|
+halcheck: *W,UELCIT (../src/march.v,225|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    WRITE: begin
+|
+halcheck: *W,UELCIT (../src/march.v,229|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    WRITE_WAIT: begin
+|
+halcheck: *W,UELCIT (../src/march.v,236|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    WRITE_TO_READ: begin
+|
+halcheck: *W,UELCIT (../src/march.v,247|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    READ:  begin
+|
+halcheck: *W,UELCIT (../src/march.v,254|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    READ_WAIT: begin
+|
+halcheck: *W,UELCIT (../src/march.v,262|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    ERROR:  begin
+|
+halcheck: *W,UELCIT (../src/march.v,273|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    PASS:  begin
+|
+halcheck: *W,UELCIT (../src/march.v,279|0): Unequal length in case item comparison (selector is 5 bits, case tag expression is 4 bits) in module/design-unit march_inst.
+                    PASS:  begin
+|
+halcheck: *W,CIMULT (../src/march.v,279|0): Case item expression covered more than once (covers same case item expression as in line 273) in module/design-unit march_inst.
+                            r_state <= INIT_2;
+|
+halcheck: *W,PADMSB (../src/march.v,223|0): Constant '4'b1' will be left-padded by 1 '0' bits.
+                        if (MEM_RDY) 
+|
+halcheck: *W,NBGEND (../src/march.v,226|0): Missing begin/end statement in the 'if' block.
+                            r_state   <= WRITE;
+|
+halcheck: *W,PADMSB (../src/march.v,227|0): Constant '4'b10' will be left-padded by 1 '0' bits.
+                        if (~MEM_RDY)
+|
+halcheck: *W,NBGEND (../src/march.v,231|0): Missing begin/end statement in the 'if' block.
+                        if (~MEM_RDY)
+|
+halcheck: *W,LOGNEG (../src/march.v,231|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+                            r_state   <= WRITE_WAIT;
+|
+halcheck: *W,PADMSB (../src/march.v,232|0): Constant '4'b11' will be left-padded by 1 '0' bits.
+                        if (r_counter[COUNTER_MSB])
+|
+halcheck: *W,NBGEND (../src/march.v,238|0): Missing begin/end statement in the 'if' block.
+                        if (r_counter[COUNTER_MSB])
+|
+halcheck: *W,REVROP (../src/march.v,238|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+                            r_state   <= WRITE_TO_READ;
+|
+halcheck: *W,PADMSB (../src/march.v,239|0): Constant '4'b100' will be left-padded by 1 '0' bits.
+                        else if (MEM_RDY)                   
+|
+halcheck: *W,NBGEND (../src/march.v,241|0): Missing begin/end statement in the 'if' block.
+                            r_state   <= WRITE;
+|
+halcheck: *W,PADMSB (../src/march.v,242|0): Constant '4'b10' will be left-padded by 1 '0' bits.
+                        if (MEM_RDY) 
+|
+halcheck: *W,NBGEND (../src/march.v,249|0): Missing begin/end statement in the 'if' block.
+                            r_state <= READ;
+|
+halcheck: *W,PADMSB (../src/march.v,250|0): Constant '4'b101' will be left-padded by 1 '0' bits.
+                        if (~MEM_RDY)
+|
+halcheck: *W,NBGEND (../src/march.v,256|0): Missing begin/end statement in the 'if' block.
+                        if (~MEM_RDY)
+|
+halcheck: *W,LOGNEG (../src/march.v,256|0): Bit-wise negation in a conditional expression. Logical NOT may have been intended.
+                            r_state <= READ_WAIT;
+|
+halcheck: *W,PADMSB (../src/march.v,257|0): Constant '4'b110' will be left-padded by 1 '0' bits.
+                        if (r_counter[COUNTER_MSB])
+|
+halcheck: *W,NBGEND (../src/march.v,263|0): Missing begin/end statement in the 'if' block.
+                        if (r_counter[COUNTER_MSB])
+|
+halcheck: *W,REVROP (../src/march.v,263|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+                            r_state <= PASS;
+|
+halcheck: *W,PADMSB (../src/march.v,264|0): Constant '4'b111' will be left-padded by 1 '0' bits.
+                        else if (MEM_RDY && (DI != VALUE)) 
+|
+halcheck: *W,NBGEND (../src/march.v,266|0): Missing begin/end statement in the 'if' block.
+                        else if (MEM_RDY && (DI != VALUE)) 
+|
+halcheck: *W,LRGOPR (../src/march.v,266|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+                        else if (MEM_RDY && (DI != VALUE)) 
+|
+halcheck: *W,ULCMPE (../src/march.v,266|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+                            r_state <= ERROR;
+|
+halcheck: *W,PADMSB (../src/march.v,267|0): Constant '4'b111' will be left-padded by 1 '0' bits.
+                            r_state <= READ;
+|
+halcheck: *W,PADMSB (../src/march.v,270|0): Constant '4'b101' will be left-padded by 1 '0' bits.
+                            r_state <= ERROR;
+|
+halcheck: *W,PADMSB (../src/march.v,275|0): Constant '4'b111' will be left-padded by 1 '0' bits.
+                            r_state <= PASS;
+|
+halcheck: *W,PADMSB (../src/march.v,281|0): Constant '4'b111' will be left-padded by 1 '0' bits.
+                            r_state <= INIT_1;
+|
+halcheck: *W,PADMSB (../src/march.v,287|0): Constant '4'b0' will be left-padded by 1 '0' bits.
+                        if (~MEM_RDY)
+|
+halcheck: *N,ALOWID (../src/march.v,231|0): Signal/variable name 'MEM_RDY' does not follow the active-low naming convention : should end with '_n'.
+        if (~NRESET)
+|
+halcheck: *N,ALOWID (../src/march.v,217|0): Signal/variable name 'NRESET' does not follow the active-low naming convention : should end with '_n'.
+assign w_en_r_rdy         = (r_state == INIT_1) ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,102|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_rdy              = (r_state == INIT_1) ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,103|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_flag        = (r_state == INIT_1) ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,104|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_flag             = (r_state == INIT_1) ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,105|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_addr        = (r_state == INIT_2) ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,107|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_addr      = (r_state == INIT_2) ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,108|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_counter     = (r_state == INIT_2) ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,109|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_counter   = (r_state == INIT_2) ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,110|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign DO                 = (r_state == WRITE && ~MEM_RDY)  ? VALUE : 1'b0;
+|
+halcheck: *W,IMPDTC (../src/march.v,112|0): Expression 'VALUE' implicitly converted to type 'unsigned' from type 'signed' in module/design-unit march_inst.
+assign DO                 = (r_state == WRITE && ~MEM_RDY)  ? VALUE : 1'b0;
+|
+halcheck: *W,TRUNCZ (../src/march.v,112|0): Truncation in constant conversion without a loss of bits in module/design-unit march_inst.
+assign DO                 = (r_state == WRITE && ~MEM_RDY)  ? VALUE : 1'b0;
+|
+halcheck: *W,PADMSB (../src/march.v,112|0): Constant '1'b0' will be left-padded by 15 '0' bits.
+assign DO                 = (r_state == WRITE && ~MEM_RDY)  ? VALUE : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,112|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign WE                 = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,PADMSB (../src/march.v,113|0): Constant '1'b1' will be left-padded by 15 '0' bits.
+assign WE                 = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,PADMSB (../src/march.v,113|0): Constant '1'b0' will be left-padded by 15 '0' bits.
+assign WE                 = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,113|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_addr        = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,114|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_addr      = (r_state == WRITE && ~MEM_RDY)  ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,115|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_counter     = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,116|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_counter   = (r_state == WRITE && ~MEM_RDY)  ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,117|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign WE                 = (r_state == WRITE_WAIT) ? 1'b0 : 1'b0;
+|
+halcheck: *W,PADMSB (../src/march.v,119|0): Constant '1'b0' will be left-padded by 15 '0' bits.
+assign WE                 = (r_state == WRITE_WAIT) ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,119|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_addr        = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,120|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_addr        = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,120|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign w_sclr_r_addr      = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,121|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_addr      = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,121|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign w_en_r_counter     = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,122|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_counter     = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,122|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign w_sclr_r_counter   = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,123|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_counter   = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,123|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign RE                 = (r_state == READ && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,PADMSB (../src/march.v,125|0): Constant '1'b1' will be left-padded by 15 '0' bits.
+assign RE                 = (r_state == READ && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,PADMSB (../src/march.v,125|0): Constant '1'b0' will be left-padded by 15 '0' bits.
+assign RE                 = (r_state == READ && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,125|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign RE                 = (r_state == READ_WAIT)                                ? 1'b0 : 1'b0;
+|
+halcheck: *W,PADMSB (../src/march.v,127|0): Constant '1'b0' will be left-padded by 15 '0' bits.
+assign RE                 = (r_state == READ_WAIT)                                ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,127|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_rdy         = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,128|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_rdy         = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,128|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign w_rdy              = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,129|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_rdy              = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,129|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign w_en_r_flag        = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,130|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_flag        = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,130|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign w_flag             = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,131|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_flag             = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b0 : 1'b0;
+|
+halcheck: *W,REVROP (../src/march.v,131|0): Register 'r_counter' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,165): Assigned using blocking assignment in this process.
+assign w_en_r_rdy         = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,132|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_rdy         = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,132|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_en_r_rdy         = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,132|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_rdy              = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,133|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_rdy              = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,133|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_rdy              = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,133|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_en_r_flag        = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,134|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_flag        = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,134|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_en_r_flag        = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,134|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_flag             = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,135|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_flag             = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,135|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_flag             = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,135|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_en_r_addr_error  = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,136|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_addr_error  = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,136|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_en_r_addr_error  = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,136|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_en_r_value_error = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,137|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_value_error = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,137|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_en_r_value_error = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,137|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_en_r_value       = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,138|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_value       = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,138|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_en_r_value       = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,138|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_en_r_addr        = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,139|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_addr        = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,139|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_en_r_addr        = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,139|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_sclr_r_addr      = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,140|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_addr      = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,140|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_sclr_r_addr      = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,140|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_en_r_counter     = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,141|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_en_r_counter     = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,141|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_en_r_counter     = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,141|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign w_sclr_r_counter   = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,142|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 5 bits, RHS operand is 4 bits.
+assign w_sclr_r_counter   = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,LRGOPR (../src/march.v,142|0): Arithmetic or relational operation performed on large operands in module/design-unit march_inst.
+assign w_sclr_r_counter   = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halcheck: *W,ULCMPE (../src/march.v,142|0): Unequal length operands in equality operator encountered (padding produces incorrect result) in module/design-unit march_inst. LHS operand is 16 bits, RHS operand is 32 bits.
+assign A                  = r_addr;                  
+|
+halcheck: *W,REVROP (../src/march.v,144|0): Register 'r_addr' is being read/assigned outside the process in which it was assigned using a blocking assignment.
+halcheck: (../src/march.v,154): Assigned using blocking assignment in this process.
+assign ADDR_ERR           = r_addr_error;
+|
+halcheck: *W,UEASTR (../src/march.v,148|0): Unequal length operands in assignment in module/design-unit march_inst. Length of RHS is greater than LHS.
+halcheck: (../src/march.v,148): LHS 'ADDR_ERR' (unsigned) - 1 bit(s), RHS 'r_addr_error' (unsigned) - 16 bit(s). 15 most significant bit(s) will be lost.
+assign VALUE_ERR          = r_value_error;
+|
+halcheck: *W,UEASTR (../src/march.v,149|0): Unequal length operands in assignment in module/design-unit march_inst. Length of RHS is greater than LHS.
+halcheck: (../src/march.v,149): LHS 'VALUE_ERR' (unsigned) - 1 bit(s), RHS 'r_value_error' (unsigned) - 16 bit(s). 15 most significant bit(s) will be lost.
+assign VALUE_EXP          = r_value;
+|
+halcheck: *W,UEASTR (../src/march.v,150|0): Unequal length operands in assignment in module/design-unit march_inst. Length of RHS is greater than LHS.
+halcheck: (../src/march.v,150): LHS 'VALUE_EXP' (unsigned) - 1 bit(s), RHS 'r_value' (unsigned) - 16 bit(s). 15 most significant bit(s) will be lost.
+localparam VALUE = 0; 
+|
+halcheck: *W,PRMVAL (../src/march.v,49|0): Bit width not specified for parameter 'VALUE'.
+localparam COUNTER_MSB = 11;
+|
+halcheck: *W,PRMVAL (../src/march.v,50|0): Bit width not specified for parameter 'COUNTER_MSB'.
+localparam COUNTER_MSB = 11;
+|
+halcheck: *W,PRMBSE (../src/march.v,50|0): Base not specified for parameter 'COUNTER_MSB'.
+halcheck: Total errors   = 6.
+halcheck: Total warnings = 282.
+
+  ==========================================================================
+Performing synthesizability checks 
+
+cfe64(64): 19.09-s006: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+halsynth: Loading design snapshot....
+halsynth: Traversing design hierarchy....
+        output  wire    [ 15 :  0 ] WE,                  // out, u[ 16 ], Write enable for memory
+|
+halsynth: *W,MULWIR (../src/march.v,63|0): Module 'march' has wire 'WE' multi-driven.
+assign WE                 = (r_state == WRITE_WAIT) ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,119|0): Source HDL information for the error/warning mentioned above.
+        output  wire    [ 15 :  0 ] RE,                  // out, u[ 16 ], Read enable for memory
+|
+halsynth: *W,MULWIR (../src/march.v,64|0): Module 'march' has wire 'RE' multi-driven.
+assign RE                 = (r_state == READ_WAIT)                                ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,127|0): Source HDL information for the error/warning mentioned above.
+wire                w_en_r_addr;
+|
+halsynth: *W,MULWIR (../src/march.v,73|0): Module 'march' has wire 'w_en_r_addr' multi-driven.
+assign w_en_r_addr        = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,139|0): Source HDL information for the error/warning mentioned above.
+assign w_en_r_addr        = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,139|0): Source HDL information for the error/warning mentioned above.
+wire                w_sclr_r_addr;
+|
+halsynth: *W,MULWIR (../src/march.v,74|0): Module 'march' has wire 'w_sclr_r_addr' multi-driven.
+assign w_sclr_r_addr      = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,140|0): Source HDL information for the error/warning mentioned above.
+assign w_sclr_r_addr      = (r_state == WRITE && ~MEM_RDY)  ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,115|0): Source HDL information for the error/warning mentioned above.
+wire                w_en_r_counter;
+|
+halsynth: *W,MULWIR (../src/march.v,76|0): Module 'march' has wire 'w_en_r_counter' multi-driven.
+assign w_en_r_counter     = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,141|0): Source HDL information for the error/warning mentioned above.
+assign w_en_r_counter     = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,141|0): Source HDL information for the error/warning mentioned above.
+wire                w_sclr_r_counter;
+|
+halsynth: *W,MULWIR (../src/march.v,77|0): Module 'march' has wire 'w_sclr_r_counter' multi-driven.
+assign w_sclr_r_counter   = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,142|0): Source HDL information for the error/warning mentioned above.
+assign w_sclr_r_counter   = (r_state == WRITE && ~MEM_RDY)  ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,117|0): Source HDL information for the error/warning mentioned above.
+wire                w_en_r_rdy;
+|
+halsynth: *W,MULWIR (../src/march.v,85|0): Module 'march' has wire 'w_en_r_rdy' multi-driven.
+assign w_en_r_rdy         = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,132|0): Source HDL information for the error/warning mentioned above.
+assign w_en_r_rdy         = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,132|0): Source HDL information for the error/warning mentioned above.
+wire                w_en_r_flag;
+|
+halsynth: *W,MULWIR (../src/march.v,86|0): Module 'march' has wire 'w_en_r_flag' multi-driven.
+assign w_en_r_flag        = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,134|0): Source HDL information for the error/warning mentioned above.
+assign w_en_r_flag        = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halsynth: (../src/march.v,134|0): Source HDL information for the error/warning mentioned above.
+wire                w_rdy;
+|
+halsynth: *W,MULWIR (../src/march.v,88|0): Module 'march' has wire 'w_rdy' multi-driven.
+assign w_rdy              = (r_state == INIT_1) ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,103|0): Source HDL information for the error/warning mentioned above.
+wire                w_flag;
+|
+halsynth: *W,MULWIR (../src/march.v,89|0): Module 'march' has wire 'w_flag' multi-driven.
+assign w_flag             = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,131|0): Source HDL information for the error/warning mentioned above.
+assign w_flag             = (r_state == INIT_1) ? 1'b0 : 1'b0;
+|
+halsynth: (../src/march.v,105|0): Source HDL information for the error/warning mentioned above.
+                (r_state)
+|
+halsynth: *N,FSMIDN (../src/march.v,221|0): In module/design-unit 'march', FSM for state register 'r_state' has been recognized.
+    always @(posedge CLK or negedge NRESET)
+|
+halsynth: *W,BADFSM (../src/march.v,216|0): In module/design-unit 'march', FSM for state register 'r_state' does not adhere to modeling style guidelines.
+                    INIT_2:
+|
+halsynth: *W,TRNMBT (../src/march.v,225|0): For the specified state '1', the state value changes by more than one bits on transition to state(s): 2.
+                            r_state   <= WRITE;
+|
+halsynth: (../src/march.v,227|0): Source HDL information for the error/warning mentioned above.
+                    WRITE_WAIT: begin
+|
+halsynth: *W,TRNMBT (../src/march.v,236|0): For the specified state '3', the state value changes by more than one bits on transition to state(s): 4.
+                            r_state   <= WRITE_TO_READ;
+|
+halsynth: (../src/march.v,239|0): Source HDL information for the error/warning mentioned above.
+                    READ:  begin
+|
+halsynth: *W,TRNMBT (../src/march.v,254|0): For the specified state '5', the state value changes by more than one bits on transition to state(s): 6.
+                            r_state <= READ_WAIT;
+|
+halsynth: (../src/march.v,257|0): Source HDL information for the error/warning mentioned above.
+                    READ_WAIT: begin
+|
+halsynth: *W,TRNMBT (../src/march.v,262|0): For the specified state '6', the state value changes by more than one bits on transition to state(s): 5.
+                            r_state <= READ;
+|
+halsynth: (../src/march.v,270|0): Source HDL information for the error/warning mentioned above.
+                (r_state)
+|
+halsynth: *E,TERMST (../src/march.v,221|0): In module/design-unit 'march', FSM for state register 'r_state' has terminal states 7.
+                    PASS:  begin
+|
+halsynth: (../src/march.v,279|0): Source HDL information for the error/warning mentioned above.
+module march
+|
+halsynth: *W,EXTFSM (../src/march.v,52|0): Extraneous logic present in module/design-unit 'march' that encodes an FSM.
+reg     [  8 :  0 ] r_reset = 9'b011111111;
+|
+halsynth: *W,INIUSP (../src/test_bench_march.v,23|0): Module test_bench_march has an initial block or a variable declaration assignment, which is ignored by synthesis tools.
+reg                 r_clk   = 1'b0;
+|
+halsynth: *W,INIUSP (../src/test_bench_march.v,24|0): Module test_bench_march has an initial block or a variable declaration assignment, which is ignored by synthesis tools.
+reg                 r_mem_rdy = 1'b0;
+|
+halsynth: *W,INIUSP (../src/test_bench_march.v,26|0): Module test_bench_march has an initial block or a variable declaration assignment, which is ignored by synthesis tools.
+reg     [ 15 :  0 ] r_di = 16'b0;
+|
+halsynth: *W,INIUSP (../src/test_bench_march.v,27|0): Module test_bench_march has an initial block or a variable declaration assignment, which is ignored by synthesis tools.
+initial begin
+|
+halsynth: *W,INIUSP (../src/test_bench_march.v,30|0): Module test_bench_march has an initial block or a variable declaration assignment, which is ignored by synthesis tools.
+initial
+|
+halsynth: *W,INIUSP (../src/test_bench_march.v,41|0): Module test_bench_march has an initial block or a variable declaration assignment, which is ignored by synthesis tools.
+halsynth: Total errors   = 1.
+halsynth: Total warnings = 22.
+
+  ==========================================================================
+Performing structural checks 
+
+halstruct(64): 19.09-s006: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+visadev(64): 19.09-s006: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+            r_reset <= r_reset - 9'd1;
+|
+halstruct: *W,FFWNSR (../src/test_bench_march.v,38|0): Flip-flop 'r_reset' does not have any set or reset.
+    always @(posedge r_clk)
+|
+halstruct: *W,OLDALW (../src/test_bench_march.v,36|0): Old coding style for always block is found in module 'test_bench_march', use 'always_ff' instead.
+            r_reset <= r_reset - 9'd1;
+|
+halstruct: *W,CLKINP (../src/test_bench_march.v,38|0): In module 'test_bench_march', clock signal 'r_clk' for flip-flop 'r_reset' is not an input.
+            r_reset <= r_reset - 9'd1;
+|
+halstruct: *W,RSTDAT (../src/test_bench_march.v,38|0): Reset signal 'test_bench_march.r_reset[8]' drives the data pin of flip-flop 'test_bench_march.r_reset'.
+            r_reset <= r_reset - 9'd1;
+|
+halstruct: *W,CLKNPI (../src/test_bench_march.v,38|0): Flip-flop 'test_bench_march.r_reset' has clock 'r_clk' which is not derived from primary input.
+halstruct: (../src/test_bench_march.v,24): Derived from local variable 'r_clk'.
+module march
+|
+halstruct: *W,SYNASN (../src/march.v,52|0): The module/design-unit 'march' contains synchronous as well as asynchronous logic.
+halstruct: (../src/march.v,141): One instance/occurence of asynchronous logic at 'test_bench_march.march_inst.w_en_r_counter'.
+halstruct: (../src/march.v,162): One instance/occurence of synchronous logic at 'test_bench_march.march_inst.r_addr'.
+    march_inst
+|
+halstruct: *E,UNCONI (../src/test_bench_march.v,57|0): Input port 'CLK' of entity/module 'march' is being used inside architecture/module, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+halstruct: (../src/test_bench_march.v,57): 'CLK' mapped to actual expression 'r_clk' which is undriven.
+    march_inst
+|
+halstruct: *E,UNCONI (../src/test_bench_march.v,57|0): Input port 'MEM_RDY' of entity/module 'march' is being used inside architecture/module, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+halstruct: (../src/test_bench_march.v,57): 'MEM_RDY' mapped to actual expression 'r_mem_rdy' which is undriven.
+    march_inst
+|
+halstruct: *E,UNCONI (../src/test_bench_march.v,57|0): Input port 'DI' of entity/module 'march' is being used inside architecture/module, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+halstruct: (../src/test_bench_march.v,57): 'DI[15:0]' mapped to actual expression 'r_di' which is undriven.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'A' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'DO' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'WE' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'RE' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'RDY' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'FLAG' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'ADDR_ERR' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'VALUE_ERR' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+    march_inst
+|
+halstruct: *W,UNCONO (../src/test_bench_march.v,57|0): Port 'VALUE_EXP' (which is being used as an output) of entity/module 'march' is being driven inside the design, but not connected (either partially or completely) in its instance 'test_bench_march.march_inst'.
+assign DO                 = (r_state == WRITE && ~MEM_RDY)  ? VALUE : 1'b0;
+|
+halstruct: *W,TIELOG (../src/march.v,112|0): The output/inout 'DO' is assigned a constant logic value.
+assign WE                 = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halstruct: *W,SYNPRT (../src/march.v,113|0): Output port 'WE' is assigned asynchronously.
+assign RE                 = (r_state == READ && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halstruct: *W,SYNPRT (../src/march.v,125|0): Output port 'RE' is assigned asynchronously.
+reg     [ COUNTER_MSB :  0 ] r_counter;      // [16:0] - full memory check, [11:0] - 2048 cells check
+|
+halstruct: *W,DFDRVS (../src/march.v,93|0): Drivers of sub-parts of vector 'r_counter' are not of same type.
+halstruct: (../src/march.v,166): r_counter[0] : Flipflop with asynchronous RESET.
+halstruct: (../src/march.v,166): r_counter[1] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[2] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[3] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[4] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[5] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[6] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[7] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[8] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[9] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[10] : Flipflop with asynchronous SET .
+halstruct: (../src/march.v,166): r_counter[11] : Flipflop with asynchronous RESET.
+assign w_en_r_flag        = (r_state == INIT_1) ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,104|0): Aliased constructs found. Wires 'w_en_r_flag' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,102): w_en_r_rdy.
+assign w_sclr_r_addr      = (r_state == INIT_2) ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,108|0): Aliased constructs found. Wires 'w_sclr_r_addr' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,107): w_en_r_addr.
+assign w_en_r_counter     = (r_state == INIT_2) ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,109|0): Aliased constructs found. Wires 'w_en_r_counter' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,107): w_en_r_addr.
+assign w_sclr_r_counter   = (r_state == INIT_2) ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,110|0): Aliased constructs found. Wires 'w_sclr_r_counter' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,107): w_en_r_addr.
+assign w_en_r_counter     = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,116|0): Aliased constructs found. Wires 'w_en_r_counter' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,114): w_en_r_addr.
+assign w_sclr_r_addr      = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,121|0): Aliased constructs found. Wires 'w_sclr_r_addr' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,120): w_en_r_addr.
+assign w_en_r_counter     = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,122|0): Aliased constructs found. Wires 'w_en_r_counter' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,120): w_en_r_addr.
+assign w_sclr_r_counter   = (r_state == WRITE_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,123|0): Aliased constructs found. Wires 'w_sclr_r_counter' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,120): w_en_r_addr.
+assign w_rdy              = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,129|0): Aliased constructs found. Wires 'w_rdy' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,128): w_en_r_rdy.
+assign w_en_r_flag        = (r_state == READ_WAIT && r_counter[COUNTER_MSB])      ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,130|0): Aliased constructs found. Wires 'w_en_r_flag' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,128): w_en_r_rdy.
+assign w_rdy              = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,133|0): Aliased constructs found. Wires 'w_rdy' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,132): w_en_r_rdy.
+assign w_en_r_flag        = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,134|0): Aliased constructs found. Wires 'w_en_r_flag' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,132): w_en_r_rdy.
+assign w_flag             = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,135|0): Aliased constructs found. Wires 'w_flag' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,132): w_en_r_rdy.
+assign w_en_r_addr_error  = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,136|0): Aliased constructs found. Wires 'w_en_r_addr_error' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,132): w_en_r_rdy.
+assign w_en_r_value_error = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,137|0): Aliased constructs found. Wires 'w_en_r_value_error' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,132): w_en_r_rdy.
+assign w_en_r_value       = (r_state == READ_WAIT && (MEM_RDY && (DI != VALUE)))  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,138|0): Aliased constructs found. Wires 'w_en_r_value' and 'w_en_r_rdy' have same drivers.
+halstruct: (../src/march.v,132): w_en_r_rdy.
+assign w_en_r_counter     = (r_state == READ_WAIT && (MEM_RDY && (DI == VALUE)))  ? 1'b1 : 1'b0;
+|
+halstruct: *W,DALIAS (../src/march.v,141|0): Aliased constructs found. Wires 'w_en_r_counter' and 'w_en_r_addr' have same drivers.
+halstruct: (../src/march.v,139): w_en_r_addr.
+                    r_addr = r_addr + 1;
+|
+halstruct: *N,FFASRT (../src/march.v,162|0): Flip-flop 'r_addr' has an asynchronous reset 'NRESET'.
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,154|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+    march_inst
+|
+halstruct: *W,DIFCLK (../src/test_bench_march.v,57|0): Clock 'r_clk' is being renamed to 'CLK'.
+    march_inst
+|
+halstruct: *W,DIFRST (../src/test_bench_march.v,57|0): Set/Reset 'r_reset[8]' is being renamed to 'NRESET'.
+        input   wire                CLK,                 //  in, u[ 1 ], Clock
+|
+halstruct: *N,CLKINF (../src/march.v,54|0): Signal 'test_bench_march.march_inst.CLK' was inferred as clock.
+halstruct: (../src/march.v,54): Clock source is signal 'test_bench_march.march_inst.CLK'.
+halstruct: (../src/march.v,162): Drives the flip-flop 'test_bench_march.march_inst.r_addr'.
+                    r_addr = r_addr + 1;
+|
+halstruct: *W,CLKNPI (../src/march.v,162|0): Flip-flop 'test_bench_march.march_inst.r_addr' has clock 'CLK' which is not derived from primary input.
+halstruct: (../src/test_bench_march.v,24): Derived from local variable 'r_clk'.
+                        r_counter = r_counter - 1;
+|
+halstruct: *N,FFASRT (../src/march.v,174|0): Flip-flop 'r_counter' has an asynchronous set .
+                        r_counter = r_counter - 1;
+|
+halstruct: *N,FFASRT (../src/march.v,174|0): Flip-flop 'r_counter' has an asynchronous reset .
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,165|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+                r_addr_error <= r_addr;
+|
+halstruct: *N,FFASRT (../src/march.v,182|0): Flip-flop 'r_addr_error' has an asynchronous reset 'NRESET'.
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,177|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+                r_value_error <= DI;
+|
+halstruct: *N,FFASRT (../src/march.v,190|0): Flip-flop 'r_value_error' has an asynchronous reset 'NRESET'.
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,185|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+                r_value <= VALUE;
+|
+halstruct: *N,FFASRT (../src/march.v,197|0): Flip-flop 'r_value' has an asynchronous reset 'NRESET'.
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,192|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+                r_rdy <= w_rdy;
+|
+halstruct: *N,FFASRT (../src/march.v,204|0): Flip-flop 'r_rdy' has an asynchronous reset 'NRESET'.
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,199|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+                r_flag <= w_flag;
+|
+halstruct: *N,FFASRT (../src/march.v,212|0): Flip-flop 'r_flag' has an asynchronous reset 'NRESET'.
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,207|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+                            r_state <= INIT_1;
+|
+halstruct: *N,FFASRT (../src/march.v,287|0): Flip-flop 'r_state' has an asynchronous reset 'NRESET'.
+    always @(posedge CLK or negedge NRESET)
+|
+halstruct: *W,OLDALW (../src/march.v,216|0): Old coding style for always block is found in module 'march', use 'always_ff' instead.
+        output  wire    [ 15 :  0 ] WE,                  // out, u[ 16 ], Write enable for memory
+|
+halstruct: *E,MLTDRV (../src/march.v,63|0): Signal/register 'WE' has multiple drivers.
+halstruct: (../src/march.v,113): Driver for 'WE'.
+halstruct: (../src/march.v,119): Driver for 'WE'.
+        output  wire    [ 15 :  0 ] RE,                  // out, u[ 16 ], Read enable for memory
+|
+halstruct: *E,MLTDRV (../src/march.v,64|0): Signal/register 'RE' has multiple drivers.
+halstruct: (../src/march.v,125): Driver for 'RE'.
+halstruct: (../src/march.v,127): Driver for 'RE'.
+wire                w_en_r_addr;
+|
+halstruct: *E,MLTDRV (../src/march.v,73|0): Signal/register 'w_en_r_addr' has multiple drivers.
+halstruct: (../src/march.v,107): Driver for 'w_en_r_addr'.
+halstruct: (../src/march.v,114): Driver for 'w_en_r_addr'.
+halstruct: (../src/march.v,120): Driver for 'w_en_r_addr'.
+halstruct: (../src/march.v,139): Driver for 'w_en_r_addr'.
+wire                w_sclr_r_addr;
+|
+halstruct: *E,MLTDRV (../src/march.v,74|0): Signal/register 'w_sclr_r_addr' has multiple drivers.
+halstruct: (../src/march.v,108): Driver for 'w_sclr_r_addr'.
+halstruct: (../src/march.v,121): Driver for 'w_sclr_r_addr'.
+halstruct: (../src/march.v,115): Driver for 'w_sclr_r_addr'.
+halstruct: (../src/march.v,140): Driver for 'w_sclr_r_addr'.
+wire                w_en_r_counter;
+|
+halstruct: *E,MLTDRV (../src/march.v,76|0): Signal/register 'w_en_r_counter' has multiple drivers.
+halstruct: (../src/march.v,109): Driver for 'w_en_r_counter'.
+halstruct: (../src/march.v,116): Driver for 'w_en_r_counter'.
+halstruct: (../src/march.v,122): Driver for 'w_en_r_counter'.
+halstruct: (../src/march.v,141): Driver for 'w_en_r_counter'.
+wire                w_sclr_r_counter;
+|
+halstruct: *E,MLTDRV (../src/march.v,77|0): Signal/register 'w_sclr_r_counter' has multiple drivers.
+halstruct: (../src/march.v,110): Driver for 'w_sclr_r_counter'.
+halstruct: (../src/march.v,123): Driver for 'w_sclr_r_counter'.
+halstruct: (../src/march.v,117): Driver for 'w_sclr_r_counter'.
+halstruct: (../src/march.v,142): Driver for 'w_sclr_r_counter'.
+wire                w_en_r_rdy;
+|
+halstruct: *E,MLTDRV (../src/march.v,85|0): Signal/register 'w_en_r_rdy' has multiple drivers.
+halstruct: (../src/march.v,102): Driver for 'w_en_r_rdy'.
+halstruct: (../src/march.v,128): Driver for 'w_en_r_rdy'.
+halstruct: (../src/march.v,132): Driver for 'w_en_r_rdy'.
+wire                w_en_r_flag;
+|
+halstruct: *E,MLTDRV (../src/march.v,86|0): Signal/register 'w_en_r_flag' has multiple drivers.
+halstruct: (../src/march.v,104): Driver for 'w_en_r_flag'.
+halstruct: (../src/march.v,130): Driver for 'w_en_r_flag'.
+halstruct: (../src/march.v,134): Driver for 'w_en_r_flag'.
+wire                w_rdy;
+|
+halstruct: *E,MLTDRV (../src/march.v,88|0): Signal/register 'w_rdy' has multiple drivers.
+halstruct: (../src/march.v,129): Driver for 'w_rdy'.
+halstruct: (../src/march.v,133): Driver for 'w_rdy'.
+halstruct: (../src/march.v,103): Driver for 'w_rdy'.
+wire                w_flag;
+|
+halstruct: *E,MLTDRV (../src/march.v,89|0): Signal/register 'w_flag' has multiple drivers.
+halstruct: (../src/march.v,135): Driver for 'w_flag'.
+halstruct: (../src/march.v,105): Driver for 'w_flag'.
+halstruct: (../src/march.v,131): Driver for 'w_flag'.
+module test_bench_march;
+|
+halstruct: *W,ATLGLC (../src/test_bench_march.v,19|0): Glue logic inferred in top-level module/design-unit 'test_bench_march'.
+halstruct: (../src/test_bench_march.v,38): HDL-statement inferred as glue logic.
+            r_reset <= r_reset - 9'd1;
+|
+halstruct: *W,FRSTDF (../src/test_bench_march.v,38|0): Set/Reset 'test_bench_march.march_inst.NRESET' is driven by flip-flop 'test_bench_march.r_reset'.
+halstruct: (../src/march.v,287): Drives flip-flop 'test_bench_march.march_inst.r_state'.
+halstruct: (../src/march.v,212): Drives flip-flop 'test_bench_march.march_inst.r_flag'.
+halstruct: (../src/march.v,204): Drives flip-flop 'test_bench_march.march_inst.r_rdy'.
+halstruct: (../src/march.v,197): Drives flip-flop 'test_bench_march.march_inst.r_value'.
+halstruct: (../src/march.v,190): Drives flip-flop 'test_bench_march.march_inst.r_value_error'.
+halstruct: (../src/march.v,182): Drives flip-flop 'test_bench_march.march_inst.r_addr_error'.
+halstruct: (../src/march.v,174): Drives flip-flop 'test_bench_march.march_inst.r_counter'.
+halstruct: (../src/march.v,162): Drives flip-flop 'test_bench_march.march_inst.r_addr'.
+module test_bench_march;
+|
+halstruct: *N,NUMDFF (../src/test_bench_march.v,19|0): Number of single-bit D flip-flops present in the hierarchy is 92.
+halstruct: Design facts generated in 'hal.design_facts'.
+halstruct: Total errors   = 13.
+halstruct: Total warnings = 49.
+
+  ==========================================================================
+
+Analysis summary :
+
+ Errors   : (20)
+  BLNBLK (2)      MLTDRV (10)     RTLINI (4)      TERMST (1)     
+  UNCONI (3)     
+
+ Warnings : (354)
+  ATLGLC (1)      BADFSM (1)      BITUNS (1)      BLKSQB (2)     
+  CIMULT (1)      CKEYWD (1)      CLKINP (1)      CLKNPI (2)     
+  CONSBS (2)      DALIAS (17)     DFDRVS (1)      DIFCLK (1)     
+  DIFRST (1)      DNGLEL (2)      DSEMEL (1)      EMPSTM (2)     
+  EXTFSM (1)      FFWNSR (1)      FRSTDF (1)      IMPDTC (11)    
+  IMPTYP (2)      INIUSP (6)      INTTOB (2)      LCVARN (13)    
+  LOGNEG (12)     LRGOPR (15)     MAXLEN (42)     MULWIR (10)    
+  NBGEND (36)     NEEDIO (1)      NOBLKN (2)      OLDALW (9)     
+  PADMSB (21)     POIASG (2)      PRMBSE (1)      PRMVAL (3)     
+  RDBFAS (3)      REVROP (11)     RSTDAT (1)      STYVAL (12)    
+  SYNASN (1)      SYNPRT (2)      TIELOG (1)      TRNMBT (4)     
+  TRUNCZ (11)     UEASTR (3)      UELCIT (9)      UELOPR (2)     
+  ULCMPE (48)     UNCONN (9)      UNCONO (9)     
+
+ Notes    : (27)
+  ALOWID (9)      CDNOTE (5)      CLKINF (1)      FFASRT (9)     
+  FSMIDN (1)      NUMDFF (1)      PRTCNT (1)     
+
+Analysis complete.
+
+ ==========================================================================
+
+To analyze results, run following command :
+    xmbrowse -64bit -cdslib ./xcelium.d/run.lnx8664.19.09.d/cds.lib -hdlvar ./xcelium.d/run.lnx8664.19.09.d/hdl.var -sortby severity -sortby category -sortby tag xrun.log
+
+TOOL:	xrun(64)	19.09-s006: Exiting on Mar 12, 2026 at 19:51:30 MSK  (total: 00:00:10)
