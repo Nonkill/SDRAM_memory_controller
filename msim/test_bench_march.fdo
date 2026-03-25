@@ -1,0 +1,13 @@
+set PROJ        ..
+
+set sim_dir     $PROJ/msim
+set src_dir     $PROJ/src
+
+vlib $sim_dir/work
+vmap WORK $sim_dir/work
+
+vlog +acc $src_dir/march/march.v
+vlog +acc $src_dir/march/march_tb.v
+
+
+vsim -t 100ps -L simprims_ver -lib work march_tb 

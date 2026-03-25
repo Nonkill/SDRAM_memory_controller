@@ -1,5 +1,5 @@
-do ./test_bench_LSR.fdo
-do ./test_bench_LSR.udo
+do ./test_bench_march.fdo
+do ./test_bench_march.udo
 
 run 10 us
 

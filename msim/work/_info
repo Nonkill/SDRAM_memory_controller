@@ -1,131 +1,13 @@
 m255
 K4
 z2
-Z0 !s12c _opt1
+Z0 !s12c _opt
 Z1 !s99 nomlopt
-Z2 !s12c _opt
+R0
 R1
-R2
+R0
 R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-R2
-R1
-!s12c _opt2
+R0
 R1
 R0
 R1
@@ -133,45 +15,189 @@ R0
 R1
 R0
 R1
-R2
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+Z2 !s12c _opt2
+R1
+Z3 !s12c _opt1
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
 R1
 R2
 R1
-R2
+R3
 R1
-R2
+R3
 R1
-R2
+R3
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
 R1
-R2
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
 R1
 !s11f vlog 2024.1 2024.02, Feb  1 2024
 13
@@ -180,72 +206,70 @@ R1
 !i10e 25
 !i10f 100
 cModel Technology
-Z3 dD:/questasim64_2024.1/examples
+Z4 dD:/questasim64_2024.1/examples
 T_opt
-!s110 1770293538
-VkF9If6VZ04n2KB>m1_CJe3
-04 20 4 work memory_controller_tb fast 0
-Z4 04 4 4 work glbl fast 0
-=1-30d0423ce5f8-69848921-1b8-4d2c
+!s110 1774450844
+VD60Lhnk=QL2nLlkf7D^I<1
+Z5 04 8 4 work march_tb fast 0
+=1-30d0423ce5f8-69c3f89b-195-3cf0
 R1
-Z5 !s12f OEM100
-Z6 !s12b OEM100
-Z7 !s124 OEM100
-Z8 o-quiet -auto_acc_if_foreign -work work -L simprims_ver
-Z9 tCvgOpt 0
+Z6 !s12f OEM100
+Z7 !s12b OEM100
+Z8 !s124 OEM100
+Z9 o-quiet -auto_acc_if_foreign -work work -L simprims_ver
+Z10 tCvgOpt 0
 n@_opt
-Z10 OL;O;2024.1;79
-R3
+Z11 OL;O;2024.1;79
 T_opt1
 !s110 1773333323
 VeRcoE[B;fU3b`kfi<nS_^2
 04 16 4 work test_bench_march fast 0
-R4
+Z12 04 4 4 work glbl fast 0
 =2-30d0423ce5f8-69b2eb4a-1f2-a8b0
 R1
-R5
 R6
 R7
 R8
 R9
+R10
 n@_opt1
-R10
-R3
-T_opt2
-!s110 1765547951
-VYnP]zVT]gd07@EQ[<nTA]2
-04 10 4 work LFSR_16_tb fast 0
+R11
 R4
-=1-30d0423ce5f8-693c1fad-2bf-d188
-R1
+T_opt2
+!s110 1774447078
+VIaF1XTkncP2R33Y]^<PS[3
 R5
+R12
+=2-30d0423ce5f8-69c3e9e5-195-6c0
+R1
 R6
 R7
 R8
 R9
-n@_opt2
 R10
-R3
+n@_opt2
+R11
+R4
 vglbl
 2D:/SV_projects/glbl.v
-Z11 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
-Z12 !s110 1773333391
+Z13 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+!s110 1774447077
 !i10b 1
 !s100 Q3Nm3[7<U5o6TNGLUoT`[2
 I`QRPX7Lh;E0UW?f7`DIDE0
 S1
-Z13 dD:/SV_projects/SDRAM controller/msim
+Z14 dD:/SV_projects/SDRAM controller/msim
 w1381684720
 8D:/SV_projects/glbl.v
 FD:/SV_projects/glbl.v
-!i122 540
+!i122 550
 L0 5 62
-Z14 VDg1SIo80bB@j0V0VzS_@n1
-Z15 OL;L;2024.1;79
+Z15 VDg1SIo80bB@j0V0VzS_@n1
+Z16 OL;L;2024.1;79
 r1
 !s85 0
 31
-Z16 !s108 1773333391.000000
+!s108 1774447077.000000
 !s107 D:/SV_projects/glbl.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|D:/SV_projects/glbl.v|
 !i113 0
@@ -253,20 +277,20 @@ Z17 o+acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 Z18 tSvlog 1 CvgOpt 0
 vIS42S16160
 2../src/42s16160.v
-R11
+R13
 !s110 1772103521
 !i10b 1
 !s100 <48o0h1W3`1^;<fYM9Z2[3
 IB=[fGbnl35>e@DI4RkRCU0
 S1
-R13
+R14
 w1762859897
 8../src/42s16160.v
 F../src/42s16160.v
 !i122 529
 L0 14 938
-R14
 R15
+R16
 r1
 !s85 0
 31
@@ -279,20 +303,20 @@ R18
 n@i@s42@s16160
 vLFSR_16
 2../src/LFSR_16.v
-R11
+R13
 !s110 1765547945
 !i10b 1
 !s100 [fmJ=YiMH9R0AYSSTLVJX3
 IKleC<343`jSQIUTBneP:`1
 S1
-R13
+R14
 w1765547745
 8../src/LFSR_16.v
 F../src/LFSR_16.v
 !i122 166
 Z19 L0 1 16
-R14
 R15
+R16
 r1
 !s85 0
 31
@@ -305,10 +329,10 @@ R18
 n@l@f@s@r_16
 vLFSR_16_tb
 Z21 2../src/LFSR_16_tb.sv
-R11
+R13
 DXx4 work 18 LFSR_16_tb_sv_unit 0 22 K]J5EJ3=7ae5A@<jcFJjg2
 Z22 !s110 1765547946
-R14
+R15
 r1
 !s85 0
 !i10b 1
@@ -316,13 +340,13 @@ r1
 IBc<[TDVff2L>=]h5>JXci0
 !s105 LFSR_16_tb_sv_unit
 S1
-R13
+R14
 Z23 w1765547757
 Z24 8../src/LFSR_16_tb.sv
 Z25 F../src/LFSR_16_tb.sv
 !i122 167
 Z26 L0 2 21
-R15
+R16
 31
 R20
 Z27 !s107 ../src/LFSR_16_tb.sv|
@@ -333,7 +357,7 @@ R18
 n@l@f@s@r_16_tb
 XLFSR_16_tb_sv_unit
 R21
-R11
+R13
 R22
 VK]J5EJ3=7ae5A@<jcFJjg2
 r1
@@ -343,13 +367,13 @@ r1
 IK]J5EJ3=7ae5A@<jcFJjg2
 !i103 1
 S1
-R13
+R14
 R23
 R24
 R25
 !i122 167
 Z29 L0 1 0
-R15
+R16
 31
 R20
 R27
@@ -360,20 +384,20 @@ R18
 n@l@f@s@r_16_tb_sv_unit
 vLFSR_3
 2../src/LFSR_3.v
-R11
+R13
 Z30 !s110 1765547664
 !i10b 1
 !s100 3_OH3YX3O:IOi3O:KoEWM3
 I[e<HPBQkf89IFzZiN1?TJ0
 S1
-R13
+R14
 w1765547647
 8../src/LFSR_3.v
 F../src/LFSR_3.v
 !i122 163
 R19
-R14
 R15
+R16
 r1
 !s85 0
 31
@@ -386,10 +410,10 @@ R18
 n@l@f@s@r_3
 vLFSR_3_tb
 Z32 2../src/LFSR_3_tb.sv
-R11
+R13
 DXx4 work 17 LFSR_3_tb_sv_unit 0 22 JcZ5;^5RnW6Q=?d49_Ve42
 R30
-R14
+R15
 r1
 !s85 0
 !i10b 1
@@ -397,13 +421,13 @@ r1
 IobnSNnel[L`59e4DdMb360
 !s105 LFSR_3_tb_sv_unit
 S1
-R13
+R14
 Z33 w1765547656
 Z34 8../src/LFSR_3_tb.sv
 Z35 F../src/LFSR_3_tb.sv
 !i122 164
 R26
-R15
+R16
 31
 R31
 Z36 !s107 ../src/LFSR_3_tb.sv|
@@ -414,7 +438,7 @@ R18
 n@l@f@s@r_3_tb
 XLFSR_3_tb_sv_unit
 R32
-R11
+R13
 R30
 VJcZ5;^5RnW6Q=?d49_Ve42
 r1
@@ -424,13 +448,13 @@ r1
 IJcZ5;^5RnW6Q=?d49_Ve42
 !i103 1
 S1
-R13
+R14
 R33
 R34
 R35
 !i122 164
 R29
-R15
+R16
 31
 R31
 R36
@@ -440,36 +464,59 @@ R17
 R18
 n@l@f@s@r_3_tb_sv_unit
 vmarch
-Z38 2../src/march.v
-R11
-DXx4 work 12 march_v_unit 0 22 Vh0M>da7DaAJLLjX`^[NA1
-Z39 !s110 1773333390
+2../src/march/march.v
+R13
+Z38 !s110 1774450839
+!i10b 1
+!s100 =JG780g6gmmh@goV2LY6z3
+IJzjD4Kb4GffgnX0V9jze@0
+S1
 R14
+w1774450835
+8../src/march/march.v
+F../src/march/march.v
+!i122 583
+L0 39 309
+R15
+R16
 r1
 !s85 0
-!i10b 1
-!s100 7O4E`kmWbJGQCl_^4^zKb3
-ImJRS2RVKf2n_CDNlBLg5M1
-!s105 march_v_unit
-S1
-R13
-Z40 w1773333261
-Z41 8../src/march.v
-Z42 F../src/march.v
-!i122 538
-L0 52 243
-R15
 31
-Z43 !s108 1773333390.000000
-Z44 !s107 ../src/march.v|
-Z45 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/march.v|
+Z39 !s108 1774450839.000000
+!s107 ../src/march/march.v|
+!s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/march/march.v|
+!i113 0
+R17
+R18
+vmarch_tb
+2../src/march/march_tb.v
+R13
+R38
+!i10b 1
+!s100 lN;YSzHRRl?EfOVefSbc?0
+I;9l00f?aOK8SVcEQ:MeVS2
+S1
+R14
+w1774450413
+8../src/march/march_tb.v
+F../src/march/march_tb.v
+!i122 584
+L0 3 86
+R15
+R16
+r1
+!s85 0
+31
+R39
+!s107 ../src/march/march_tb.v|
+!s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/march/march_tb.v|
 !i113 0
 R17
 R18
 Xmarch_v_unit
-R38
-R11
-R39
+2../src/march.v
+R13
+!s110 1773333390
 VVh0M>da7DaAJLLjX`^[NA1
 r1
 !s85 0
@@ -478,40 +525,40 @@ r1
 IVh0M>da7DaAJLLjX`^[NA1
 !i103 1
 S1
-R13
-R40
-R41
-R42
+R14
+w1773333261
+8../src/march.v
+F../src/march.v
 !i122 538
 L0 39 0
-R15
+R16
 31
-R43
-R44
-R45
+!s108 1773333390.000000
+!s107 ../src/march.v|
+!s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/march.v|
 !i113 0
 R17
 R18
 vmemory_controller
 2../src/memory_controller.v
-R11
-Z46 !s110 1772103520
+R13
+Z40 !s110 1772103520
 !i10b 1
 !s100 hR5cl7ACO]0zIc:@4`C6n3
 IXPk?4SY97V:BdW`0^T3JP1
 S1
-R13
+R14
 w1770293588
 8../src/memory_controller.v
 F../src/memory_controller.v
 !i122 528
 L0 1 333
-R14
 R15
+R16
 r1
 !s85 0
 31
-Z47 !s108 1772103520.000000
+Z41 !s108 1772103520.000000
 !s107 ../src/memory_controller.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/memory_controller.v|
 !i113 0
@@ -519,99 +566,99 @@ R17
 R18
 vmemory_controller_tb
 2../src/test_bench.sv
-R11
-R46
+R13
+R40
 !i10b 1
 !s100 CYCQXlQe`N1hdn[7GolcV3
 IS^T:K3?`<HQ@1:]4E:3Zl2
 S1
-R13
+R14
 w1770292133
 8../src/test_bench.sv
 F../src/test_bench.sv
 !i122 526
 L0 3 215
-R14
 R15
+R16
 r1
 !s85 0
 31
-R47
+R41
 !s107 ../src/test_bench.sv|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/test_bench.sv|
 !i113 0
 R17
 R18
 vtest_bench
-Z48 2../src/test_bench_march.v
-R11
+Z42 2../src/test_bench_march.v
+R13
 !s110 1773333285
 !i10b 1
 !s100 jP<eLCj49I1??iZl4:0>Z0
 IXY[E]2`FUg4687@bF;m8V0
 S1
-R13
-w1773333279
-Z49 8../src/test_bench_march.v
-Z50 F../src/test_bench_march.v
-!i122 533
-Z51 L0 19 56
 R14
+w1773333279
+Z43 8../src/test_bench_march.v
+Z44 F../src/test_bench_march.v
+!i122 533
+Z45 L0 19 56
 R15
+R16
 r1
 !s85 0
 31
 !s108 1773333285.000000
-Z52 !s107 ../src/test_bench_march.v|
-Z53 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/test_bench_march.v|
+Z46 !s107 ../src/test_bench_march.v|
+Z47 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/test_bench_march.v|
 !i113 0
 R17
 R18
 vtest_bench_march
-R48
-R11
-R12
+R42
+R13
+!s110 1773333391
 !i10b 1
 !s100 Z^hCGM`0Zn6oDD7nS=WKo1
 IVkQ71FNRVkG`K2G:5TH`@0
 S1
-R13
-w1773333318
-R49
-R50
-!i122 539
-R51
 R14
+w1773333318
+R43
+R44
+!i122 539
+R45
 R15
+R16
 r1
 !s85 0
 31
-R16
-R52
-R53
+!s108 1773333391.000000
+R46
+R47
 !i113 0
 R17
 R18
 vtop
 2../src/top.v
-R11
-R46
+R13
+R40
 !i10b 1
 !s100 j7TSR]_FRFBa_cHl?hUjS0
 IiZEnCdZWUZCbO=T`=J@O`0
 S1
-R13
+R14
 w1764090668
 8../src/top.v
 F../src/top.v
 !i122 527
 L0 1 64
-R14
 R15
+R16
 r1
 !s85 0
 31
-R47
+R41
 !s107 ../src/top.v|
 !s90 -F=D:/SV_projects/SDRAM controller/msim/vlog.opt|-F=|-reportprogress|300|+acc|../src/top.v|
 !i113 0

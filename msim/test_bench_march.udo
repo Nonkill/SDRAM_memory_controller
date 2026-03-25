@@ -1,15 +1,22 @@
-add wave -noupdate -format Logic /r_clk
-add wave -noupdate -format Logic /r_reset
-add wave -noupdate -format Logic /r_mem_rdy
-add wave -noupdate -format Logic /r_di
+add wave -noupdate -group sim -format Logic /r_clk
+add wave -noupdate -group sim -format Logic /r_nreset
+add wave -noupdate -group sim -format Logic /r_mem_rdy
+add wave -noupdate -group sim -format Logic /r_di
 
+add wave -noupdate -format Logic /march_inst/A
+add wave -noupdate -format Logic /march_inst/DO
+add wave -noupdate -format Logic /march_inst/WE
+add wave -noupdate -format Logic /march_inst/RE
 add wave -noupdate -format Logic /march_inst/RDY
 add wave -noupdate -format Logic /march_inst/FLAG
 add wave -noupdate -format Logic /march_inst/ADDR_ERR
 add wave -noupdate -format Logic /march_inst/VALUE_ERR
 add wave -noupdate -format Logic /march_inst/VALUE_EXP
-add wave -noupdate -format Logic /march_inst/
-
+add wave -noupdate -format Logic /march_inst/r_state
+add wave -noupdate -format Decimal /march_inst/r_iter
+add wave -noupdate -format Decimal /march_inst/r_counter
+add wave -noupdate -format Logic /march_inst/w_en_r_addr
+add wave -noupdate -format Logic /march_inst/w_sclr_r_addr
 
 
 #TreeUpdate [SetDefaultTree]
