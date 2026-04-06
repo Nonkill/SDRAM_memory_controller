@@ -8,6 +8,7 @@ reg r_mem_rdy = 0;
 reg [15:0] r_di;
 
 reg r_re;
+reg r_we;
 reg r_rdy;
 reg r_flag;
 reg [12:0] r_addr_error;
@@ -16,7 +17,7 @@ reg r_value_exp;
 
 
 
-localparam POWER_OF_THE_CHECKED_ADRESSES = 11; 
+localparam POWER_OF_THE_CHECKED_ADRESSES = 6; 
 
 march
     #(
@@ -30,13 +31,13 @@ march
         .DI         (r_di),                    //  in, u[ DATA_WIDTH ], Data from RAM
         .A          (),                        // out, u[ ADR_WIDTH ],  Address
         .DO         (),                        // out, u[ DATA_WIDTH ], Data to RAM
-        .WE         (),                        // out, u[ 1 ],          Write enable for memory
+        .WE         (r_we),                        // out, u[ 1 ],          Write enable for memory
         .RE         (r_re),                    // out, u[ 1 ],          Read enable for memory
         .RDY        (r_rdy),                   // out, u[ 1 ],          Ready
         .FLAG       (r_flag),                  // out, u[ 1 ],          error flag
         .ADDR_ERR   (r_addr_error),            // out, u[ ADR_WIDTH ],  address of error
         .VALUE_ERR  (r_value_err),             // out, u[ 1 ],          value of error
-        .VALUE_EXP  (r_value_exp)             // out, u[ 1 ],          expected value
+        .VALUE_EXP  (r_value_exp)              // out, u[ 1 ],          expected value
     );
 
 always 
@@ -51,12 +52,14 @@ initial begin
     r_nreset = 1;
     r_mem_rdy = 1; 
     #35;
-    repeat (2^POWER_OF_THE_CHECKED_ADRESSES) begin
-        @(posedge r_clk)
-        r_mem_rdy = ~r_mem_rdy; 
+    repeat (64) begin
+        if (r_we) begin
+            @(posedge r_clk)
+            r_mem_rdy = ~r_mem_rdy; 
+        end
     end
 
-    repeat ( (2^POWER_OF_THE_CHECKED_ADRESSES) * 5) begin
+    repeat ( (64) * 5) begin
         if (r_re)
             r_mem_rdy <= 0;
         

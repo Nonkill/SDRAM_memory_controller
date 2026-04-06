@@ -1,6 +1,10 @@
 add wave -noupdate -group sim -format Logic /r_clk
 add wave -noupdate -group sim -format Logic /r_nreset
 add wave -noupdate -group sim -format Logic /r_mem_rdy
+
+add wave -noupdate -group sim -format Logic /march_inst/w_en_r_rdy
+add wave -noupdate -group sim -format Logic /march_inst/w_rdy
+
 add wave -noupdate -group sim -format Logic /r_di
 
 add wave -noupdate -format Logic /march_inst/A

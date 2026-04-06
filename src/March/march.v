@@ -41,7 +41,7 @@ module march
         parameter                                   ADR_WIDTH    =   13,  // bit amoiunt of address reg
         parameter                                   DATA_WIDTH   =   16,  // width of data stored in data cell of sdram
         parameter                                   ITERATION    =   5,    // how many times the memory will be scanned and filled
-        parameter                                   POWER_OF_THE_CHECKED_ADRESSES = 11   // amount of bits subtract one, which will be used for counter, that roll adresses
+        parameter                                   POWER_OF_THE_CHECKED_ADRESSES = 6   // amount of bits subtract one, which will be used for counter, that roll adresses
                                                                                         // as an example 11 give a 2^11 = 2048 cells form 0 that will be checked during test
                                                                                         // for purposes of full mem check use 16
     )
@@ -87,7 +87,7 @@ wire                w_rdy;
 wire                w_flag;
 
 localparam COUNTER_MSB      = POWER_OF_THE_CHECKED_ADRESSES;
-localparam START_POINT      = 2^(COUNTER_MSB);
+localparam START_POINT      = 64;
 
 reg     [ ADR_WIDTH   :  0 ]       r_addr;
 reg     [ COUNTER_MSB :  0 ]       r_counter;      // [16:0] - full memory check, [11:0] - 2048 cells check
@@ -112,55 +112,57 @@ localparam ERROR            = 4'b1000;
 localparam PASS             = 4'b1001;
 
 
-assign w_en_r_rdy         = (r_state == INIT_1) ? 1'b1 : 1'b0;
-assign w_rdy              = (r_state == INIT_1) ? 1'b0 : 1'b0;
-assign w_en_r_flag        = (r_state == INIT_1) ? 1'b1 : 1'b0;
-assign w_flag             = (r_state == INIT_1) ? 1'b0 : 1'b0;
+assign WE                 = (r_state == WRITE_0) || 
+                            (r_state == WRITE) 
+                            ? 1'b1 : 1'b0;
+assign RE                 = (r_state == READ)  
+                            ? 1'b1 : 1'b0;
+assign DO                 = (r_state == WRITE)              
+                            ? ~r_do : 1'b0;                 //!!!!!! attention after sim
 
-assign w_en_r_addr        = (r_state == INIT_2) ? 1'b1 : 1'b?;     // необходимо переписать через case или сделать длинное условие
-assign w_sclr_r_addr      = (r_state == INIT_2) ? 1'b1 : 1'b?;
-assign w_en_r_counter     = (r_state == INIT_2) ? 1'b1 : 1'b0;
-assign w_sclr_r_counter   = (r_state == INIT_2) ? 1'b1 : 1'b0;
+assign w_en_r_rdy         = (r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do) ||
+                            (r_state == READ && (r_iter == ITERATION))
+                             ? 1'b1 : 1'b0;
+assign w_rdy              = (r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do) ||
+                            (r_state == READ && (r_iter == ITERATION))
+                             ? 1'b0 : 1'b0;
+assign w_en_r_flag        = (r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do) ||
+                            (r_state == READ && (r_iter == ITERATION))
+                            ? 1'b1 : 1'b0;
+assign w_flag             = (r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)
+                            ? 1'b0 : 1'b0;
 
-assign DO                 = (r_state == WRITE_0)              ? 1'b0 : 1'b0;
-assign WE                 = (r_state == WRITE_0)              ? 1'b1 : 1'b1;
-assign w_en_r_addr        = (r_state == WRITE_0 && ~MEM_RDY)  ? 1'b1 : 1'b?;
-assign w_sclr_r_addr      = (r_state == WRITE_0 && ~MEM_RDY)  ? 1'b0 : 1'b0;
-assign w_en_r_counter     = (r_state == WRITE_0 && ~MEM_RDY)  ? 1'b1 : 1'b0;
-assign w_sclr_r_counter   = (r_state == WRITE_0 && ~MEM_RDY)  ? 1'b0 : 1'b0;
+assign w_en_r_addr        = (r_state == INIT_1) ||
+                            (r_state == INIT_2) ||
+                            (r_state == WRITE_0 ) ||
+                            (r_state == WRITE_0_WAIT && ~r_counter[COUNTER_MSB]) ||
+                            (r_state == WRITE )                                  // mb need condition for more flexible behaviour
+                            ? (r_iter < 2) : 1'b0;                                          // необходимо переписать через case или сделать длинное условие, наверное нет
+assign w_sclr_r_addr      = (r_state == WRITE_0 ) ||
+                            (r_state == WRITE ) ||
+                            (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB]) 
+                            ? 1'b1 : 1'b0;
+assign w_en_r_counter     = (r_state == INIT_2) ||
+                            (r_state == WRITE_0) ||
+                            (r_state == WRITE ) ||
+                            (r_state == WRITE_TO_READ && MEM_RDY && r_counter [COUNTER_MSB])
+                            ? 1'b1 : 1'b0;
+assign w_sclr_r_counter   = (r_state == INIT_2) ||
+                            (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB]) ||
+                            (r_state == WRITE_TO_READ && MEM_RDY && r_counter [COUNTER_MSB])
+                            ? 1'b1 : 1'b0;
 
-assign WE                 = (r_state == WRITE_0_WAIT)                            ? 1'b0 : 1'b0;
-assign w_en_r_addr        = (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b?;
-assign w_sclr_r_addr      = (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
-assign w_en_r_counter     = (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
-assign w_sclr_r_counter   = (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB])  ? 1'b1 : 1'b0;
 
-assign RE                 = (r_state == READ) ? 1'b1 : 1'b0;
+assign w_en_r_addr_error  = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)                 ? 1'b1 : 1'b0;
+assign w_en_r_value_error = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)                 ? 1'b1 : 1'b0;
+assign w_en_r_value       = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)                 ? 1'b1 : 1'b0;
+assign w_en_r_iter        = (r_state == WRITE_TO_READ && MEM_RDY && r_counter [COUNTER_MSB])    ? 1'b1 : 1'b0;
 
-assign w_en_r_rdy         = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)       ? 1'b1 : 1'b0;
-assign w_rdy              = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)       ? 1'b1 : 1'b0;
-assign w_en_r_flag        = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)       ? 1'b1 : 1'b0;
-assign w_flag             = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)       ? 1'b1 : 1'b0;
-assign w_en_r_addr_error  = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)       ? 1'b1 : 1'b0;
-assign w_en_r_value_error = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)       ? 1'b1 : 1'b0;
-assign w_en_r_value       = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)       ? 1'b1 : 1'b0;
-
-assign WE                 = (r_state == WRITE)              ? 1'b1  : 1'b0;
-assign DO                 = (r_state == WRITE)              ? ~r_do : 1'b0;                 //!!!!!! attention after sim
-assign w_en_r_addr        = (r_state == WRITE && ~MEM_RDY)  ? (r_iter < 2) : 1'b?;         // mb need condition for more flexible behaviour
-assign w_sclr_r_addr      = (r_state == WRITE && ~MEM_RDY)  ? 1'b0 : 1'b0;
-assign w_en_r_counter     = (r_state == WRITE && ~MEM_RDY)  ? 1'b1 : 1'b0;
-assign w_sclr_r_counter   = (r_state == WRITE && ~MEM_RDY)  ? 1'b0 : 1'b0;
-
-assign w_en_r_iter        = (r_state == WRITE_TO_READ && MEM_RDY && r_counter [COUNTER_MSB])   ? 1'b1 : 1'b0;
-
-assign w_en_r_rdy         = (r_state == READ && (r_iter == ITERATION)) ? 1'b1 : 1'b0;
-assign w_rdy              = (r_state == READ && (r_iter == ITERATION)) ? 1'b1 : 1'b0;
-assign w_en_r_flag        = (r_state == READ && (r_iter == ITERATION)) ? 1'b1 : 1'b0;
-assign w_flag             = (r_state == READ && (r_iter == ITERATION)) ? 1'b0 : 1'b0;
-
-assign A                  = r_addr;                  
-                  
+assign A                  = r_addr;                                 
 assign RDY                = r_rdy;
 assign FLAG               = r_flag;
 assign ADDR_ERR           = r_addr_error;
@@ -168,16 +170,16 @@ assign VALUE_ERR          = r_value_error;
 assign VALUE_EXP          = r_value;
 
 
-
     always @(posedge CLK or negedge NRESET)
         if (~NRESET)
             r_addr <= '0;
         else
-            if (w_en_r_addr)   
-                if(w_sclr_r_addr)
-                    r_addr <= '0;
-                else
+            if (w_en_r_addr)
+                if (w_sclr_r_addr)   
                     r_addr <= r_addr + 1;
+                else
+                    r_addr <= r_addr;
+
             else
                 if(w_sclr_r_addr)
                     r_addr <= START_POINT - 1;
@@ -195,6 +197,9 @@ assign VALUE_EXP          = r_value;
                 else
                     if (~r_counter[COUNTER_MSB])
                         r_counter <= r_counter - 1;
+            else 
+                r_counter <= r_counter;
+
 
     always @(posedge CLK or negedge NRESET)
         if (~NRESET)
@@ -286,7 +291,7 @@ assign VALUE_EXP          = r_value;
                             r_state   <= READ;
 
                         else if (MEM_RDY)                   
-                            r_state   <= WRITE;
+                            r_state   <= WRITE_0;
 
 
                     end

@@ -1,12 +1,16 @@
 module TopTop ();
 
+input   wire                                NRST; 
+input   wire                                OPERATION;     // w = 1, r = 0;
+input   wire                                VALUE;         // value equal to provided number
+input   wire                                GO_DIRECTION;  // falling (n to 0) - 1, rising (0 to n) - 0
+output  reg                                 rdy_button;
 
 reg               [12:0]                    ADR_IN; 
 reg               [1:0]                     BDR_IN;
 reg               [15:0]                    DIN; 
 reg                                         RE_IN;  
 reg                                         WE_IN; 
-wire                                        NRST; 
 wire                                        CLK; 
 reg               [12:0]                    ADR_OUT;
 reg               [1:0]                     BDR_OUT;
@@ -32,8 +36,6 @@ reg              [4:0]                      difference;
 
 
 
-
-
 top top_inst ( 
                         .ADR_IN  (ADR_IN), 
                         .ADR_OUT (ADR_OUT), 
@@ -53,7 +55,7 @@ top top_inst (
                         .CAS (CAS),
                         .DQ (DQ)  
 );
-//////sdfdsfsdfsdfsdfsdfsdfsd
+// connection between SDRAM and mem_controller
 assign adr_out = ADR_OUT; 
 assign bdr_out = BDR_OUT;  
 assign we_out  = WE_OUT;  
@@ -76,10 +78,25 @@ IS42S16160 memory_inst (
                         .Dqm(2'b00)
 );
 
-MARCH march_inst (
-                        .
+//connection between MARCH tester and banch of memory and controller
+
+MARCH_raw march_raw_inst (
+                        OPERATION;     // w = 1, r = 0;
+                        VALUE;         // value equal to provided number
+                        GO_DIRECTION;
+                        .clk (CLK);
+                        .NRST (NRST);  
+                        .col_flag;
+                        .adr_o;
+                        .bdr_o;
+                        .col_to_go;
+                        .   rdy_button;
 );         
-                            
+
+MARCH_col march_col_inst (
+
+);   
+
 always @(posedge clk or negedge NRST)
     if (NRST)
         ADR_IN = '0;
