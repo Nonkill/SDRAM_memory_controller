@@ -1,17 +1,30 @@
-module TopTop ();
+`timescale 100ps / 1ps                                       //read не работает и ещё надо сделать так чтобы во врайт стейте выжавались сигналы, а не после
 
-input   wire                                NRST; 
-input   wire                                OPERATION;     // w = 1, r = 0;
-input   wire                                VALUE;         // value equal to provided number
-input   wire                                GO_DIRECTION;  // falling (n to 0) - 1, rising (0 to n) - 0
-output  reg                                 rdy_button;
+module march_controller_tb ();
 
-reg               [12:0]                    ADR_IN; 
-reg               [1:0]                     BDR_IN;
+//input   wire                                CLK;
+//input   wire                                NRST; 
+//output  reg                                 RDY_BUTTON;
+//output  reg                                 FLAG_BUTTON;
+//output  reg                                 ADDR_ERR;
+//output  reg                                 VALUE_ERR;
+//output  reg                                 VALUE_EXP;
+
+localparam                                  DATA_WIDTH = 16;
+
+reg                                         CLK;
+reg                                         NRST; 
+reg                                         RDY_BUTTON;
+reg                                         FLAG_BUTTON;
+reg               [21:0]                    ADDR_ERR;
+reg                                         VALUE_ERR;
+reg                                         VALUE_EXP;
+
+reg               [21:0]                    ADR_IN; 
+reg               [1:0]                     BDR_IN = 2'b00;
 reg               [15:0]                    DIN; 
 reg                                         RE_IN;  
 reg                                         WE_IN; 
-wire                                        CLK; 
 reg               [12:0]                    ADR_OUT;
 reg               [1:0]                     BDR_OUT;
 reg               [15:0]                    DOUT;  
@@ -30,11 +43,16 @@ wire                                        cs;
 wire                                        ras;       
 wire                                        cas;       
 wire             [15:0]                     dq;  
-reg              [4:0]                      counter;
-reg              [4:0]                      counter_db;
-reg              [4:0]                      difference;
-
-
+//reg              [4:0]                      counter;
+//reg              [4:0]                      counter_db;
+//reg              [4:0]                      difference;
+reg                                         rdy;
+reg              [ DATA_WIDTH - 1 : 0 ]     dout;
+reg              [21:0]                     adr_in;
+reg              [15:0]                     do_m;
+reg                                         we_in;
+reg                                         re_in;
+                                         
 
 top top_inst ( 
                         .ADR_IN  (ADR_IN), 
@@ -56,14 +74,14 @@ top top_inst (
                         .DQ (DQ)  
 );
 // connection between SDRAM and mem_controller
-assign adr_out = ADR_OUT; 
-assign bdr_out = BDR_OUT;  
-assign we_out  = WE_OUT;  
-assign cke     = CKE;       
-assign cs      = CS;        
-assign ras     = RAS;       
-assign cas     = CAS ;       
-assign dq      = DQ;    
+assign #20 adr_out = ADR_OUT; 
+assign #20 bdr_out = BDR_OUT;  
+assign #20 we_out  = WE_OUT;  
+assign #20 cke     = CKE;       
+assign #20 cs      = CS;        
+assign #20 ras     = RAS;       
+assign #20 cas     = CAS ;       
+assign #20 dq      = DQ;    
 
 IS42S16160 memory_inst (
                         .Dq(dq),
@@ -78,33 +96,56 @@ IS42S16160 memory_inst (
                         .Dqm(2'b00)
 );
 
-//connection between MARCH tester and banch of memory and controller
+//connection between MARCH tester and controller
 
-MARCH_raw march_raw_inst (
-                        OPERATION;     // w = 1, r = 0;
-                        VALUE;         // value equal to provided number
-                        GO_DIRECTION;
-                        .clk (CLK);
-                        .NRST (NRST);  
-                        .col_flag;
-                        .adr_o;
-                        .bdr_o;
-                        .col_to_go;
-                        .   rdy_button;
-);         
-
-MARCH_col march_col_inst (
-
-);   
-
-always @(posedge clk or negedge NRST)
-    if (NRST)
-        ADR_IN = '0;
-        WE_IN = 0;
-        RE_IN = 0;
-        DIN = '0;
+assign rdy      = RDY; 
+assign dout     = DOUT;  
+assign ADR_IN   = adr_in;  
+assign DIN      = do_m;
+assign WE_IN    = we_in;
+assign RE_IN    = re_in;
 
 
+march
+    #(
+        .ADR_WIDTH  (),                                      // bit amoiunt of address reg
+        .DATA_WIDTH (),                                      // width of data stored in data cell of sdram
+        .ITERATION  (),                                      // how many times the memory will be scanned and filled
+        .POWER_OF_THE_CHECKED_ADRESSES  ()                   // amount of bits subtract one, which will be used for counter, that roll adresses
+                                                             // as an example 11 give a 2^11 = 2048 cells form 0 that will be checked during test
+                                                             // for purposes of full mem check use 16                
+    )
+    march_inst
+    (
+        .CLK        (CLK),                                   //  in, u[ 1 ], Clock
+        .NRESET     (NRST),                                  //  in, u[ 1 ], Async. negedge reset
+        .MEM_RDY    (rdy),                                   //  in, u[ 1 ], Memory controller ready
+        .DI         (dout),                                  //  in, u[ DATA_WIDTH ], Data from RAM
+        .A          (adr_in),                               // out, u[ ADR_WIDTH ] , Address
+        .DO         (do_m),                                  // out, u[ DATA_WIDTH ], Data to RAM
+        .WE         (we_in),                                 // out, u[ 1 ], Write enable for memory
+        .RE         (re_in),                                 // out, u[ 1 ], Read enable for memory
+        .RDY        (RDY_BUTTON),                            // out, u[ 1 ],  Ready
+        .FLAG       (FLAG_BUTTON),                           // out, u[ 1 ],  error flag
+        .ADDR_ERR   (ADDR_ERR),                              // out, u[ ADR_WIDTH ], address of error
+        .VALUE_ERR  (VALUE_ERR),                             // out, u[ 1 ],  value of error
+        .VALUE_EXP  (VALUE_EXP)                              // out, u[ 1 ],  expected value
+    );         
+   
 
+
+initial begin
+    #100;
+    CLK = 0;
+    NRST = 0; 
+    #100;
+    NRST = 1;
+
+    forever begin
+    #35;
+    CLK = ~CLK;
+    end
+
+end
 
 endmodule

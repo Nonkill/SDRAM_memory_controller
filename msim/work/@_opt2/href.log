@@ -1,0 +1,3 @@
+BEGIN 1:glbl:fast:work
+    GTS :  1:IOBUF:fast:simprims_ver
+END 

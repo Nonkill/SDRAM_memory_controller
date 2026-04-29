@@ -1,43 +1,47 @@
-module memory_controller( ADR_IN, ADR_OUT, BDR_IN, BDR_OUT, RE_IN,  WE_IN, WE_OUT, NRST, CLK, RDY, CKE, CS, RAS, CAS, DIRECTION);
+module memory_controller
+#(
+    //parameterized charactheristics of SDRAM
+    parameter BANK_NUM = 2,
+    parameter ROW_DEPTH = 13,                  
+    parameter COLUMN_DEPTH = 9                  
+)
+( ADR_IN, ADR_OUT, BDR_IN, BDR_OUT, RE_IN,  WE_IN, WE_OUT, NRST, CLK, RDY, CKE, CS, RAS, CAS, DIRECTION);
 
 //parameterized charactheristics of SDRAM
-parameter BANK_NUM = 4;
-parameter ROW_DEPTH = 8192;
-parameter COLUMN_DEPTH = 512;
-parameter COLUMN_WIDTH = 16;
-parameter BANK_ADRESS = $clog2(BANK_NUM);
-parameter ROW_ADRESS = $clog2(ROW_DEPTH);
-parameter COLUMN_ADRESS = $clog2(COLUMN_DEPTH);
+//parameter BANK_NUM = 4;
+//parameter ROW_DEPTH = 8192;                    //2^13
+//parameter COLUMN_DEPTH = 512;                  //2^9                  
+//parameter BANK_ADRESS = $clog2(BANK_NUM);
+//parameter ROW_ADRESS = $clog2(ROW_DEPTH);
+//parameter COLUMN_ADRESS = $clog2(COLUMN_DEPTH);
 
 //delays and timings
-parameter CAS_LATENCY = 7;          //ns,             (CAS_LATENCY = 3)
-parameter REFR_TIME = 9142000;      //cycles (< 64 ms), TIME_TO_REFRESH, 857 cycles is in stock
-parameter RP_TIME = 3;              //cycles (15 ns), REQUIRED_PRECHARGE_TIME
-parameter RC_TIME = 9;              //cycles (60 ns), REQUIRED_REFRESH_TIME
-parameter RCD_TIME = 3;
-parameter DPL_TIME =  2;             //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
+localparam CAS_LATENCY = 7;          //ns,             (CAS_LATENCY = 3)
+localparam REFR_TIME = 9142000;      //cycles (< 64 ms), TIME_TO_REFRESH, 857 cycles is in stock
+localparam RP_TIME = 3;              //cycles (15 ns), REQUIRED_PRECHARGE_TIME
+localparam RC_TIME = 9;              //cycles (60 ns), REQUIRED_REFRESH_TIME
+localparam RCD_TIME = 3;
+localparam DPL_TIME =  2;             //cycles (14 ns), REQUIRED_WRITE_TO_PRECHARGE_TIME
+localparam MRS_TIME = 2;
 localparam init_delay  =  14290;    // INIT_DELAY, пока без формул
-localparam REFR_TIME_width = $clog2(REFR_TIME);          //counter width due to refresh time
+//localparam REFR_TIME_width = $clog2(REFR_TIME);          //counter width due to refresh time
 
 
-input  wire  [ROW_ADRESS - 1:0]    ADR_IN;
-input  wire  [BANK_ADRESS - 1:0]   BDR_IN;
-//input  wire  [COLUMN_WIDTH - 1:0]  DIN;
-input  wire                        RE_IN;
-input  wire                        WE_IN;
-input  wire                        NRST;
-input  wire                        CLK;
-output reg   [ROW_ADRESS - 1:0]    ADR_OUT;
-output reg   [BANK_ADRESS - 1:0]   BDR_OUT;
-//output reg   [COLUMN_WIDTH - 1:0]  DOUT;
-output reg                         RDY;
-output reg                         CKE;
-output reg                         CS;          //active low
-output reg                         RAS;         //active low
-output reg                         CAS;         //active low
-output reg                         WE_OUT;      //active low
-output wire                        DIRECTION;
-//inout  wire  [COLUMN_WIDTH - 1:0]  DQ;
+input  wire  [ ROW_DEPTH + COLUMN_DEPTH - 1 : 0 ]    ADR_IN;
+input  wire  [ BANK_NUM - 1 : 0 ]                    BDR_IN;
+input  wire                                          RE_IN;
+input  wire                                          WE_IN;
+input  wire                                          NRST;
+input  wire                                          CLK;
+output reg   [ ROW_DEPTH - 1 : 0 ]                   ADR_OUT;
+output reg   [ BANK_NUM - 1 : 0]                     BDR_OUT;
+output reg                                           RDY;
+output reg                                           CKE;
+output reg                                           CS;          //active low
+output reg                                           RAS;         //active low
+output reg                                           CAS;         //active low
+output reg                                           WE_OUT;      //active low
+output wire                                          DIRECTION;
 
 
 localparam [3:0] INIT_HOLD      =  4'b0000;
@@ -53,13 +57,13 @@ localparam [3:0] BST            =  4'b1001;
 
 
 reg [3:0] state, next_state;
-reg [REFR_TIME_width - 1: 0] counter, counter_db;
+reg [$clog2(REFR_TIME) - 1: 0] counter, counter_db;
 reg init_flag;
 reg MRS_flag;
 reg ACTIVE_flag;
 reg PRECHARGE_flag;
+reg WE_RE_flag;
 
-//assign DQ = WE_IN ? DIN : 16'bz;
 assign DIRECTION = ~(state == WRITE);
 
 always @(posedge CLK or negedge NRST) 
@@ -70,6 +74,7 @@ always @(posedge CLK or negedge NRST)
             MRS_flag    <= 0;
             ACTIVE_flag <= 0;
             PRECHARGE_flag <= 0;
+            WE_RE_flag  <= 0;
             counter     <= 0;
             counter_db  <= 0;
             end
@@ -89,6 +94,8 @@ always @(posedge CLK or negedge NRST)
              (next_state == READ && state != READ)
              ||
              (next_state == ACTIVE && state != ACTIVE)
+             ||
+             (next_state == MRS && state != MRS)
              ||
              (next_state == IDLE && state == PRECHARGE)
              ) 
@@ -112,6 +119,12 @@ always @(posedge CLK or negedge NRST)
         if (state == PRECHARGE)
             PRECHARGE_flag <= 0;
 
+        if (WE_IN)
+            WE_RE_flag <= 1;        //detected WE follow flag is 1
+        else if (RE_IN)
+            WE_RE_flag <= 0;        //detected RE follow flag is 0
+        else 
+            WE_RE_flag <= WE_RE_flag;
         end
 
     end
@@ -137,8 +150,8 @@ always @(*)
                             CAS = 1;
                             WE_OUT = 1;
                             RDY = 0;
-                            ADR_OUT  = 13'bz;
-                            BDR_OUT = 2'bz;
+                            ADR_OUT  = 13'b0;
+                            BDR_OUT = BDR_IN;
             end
 
             IDLE:           begin
@@ -159,19 +172,19 @@ always @(*)
                                 next_state = ACTIVE;
                             end
                             //leap to READ comand after activation and holding nop
-                            if ( RE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME))
+                            if ( WE_RE_flag && ACTIVE_flag && ((counter - counter_db) > RCD_TIME))
                                 next_state = READ;
 
                             //leap to WRITE comand after activation and holding nop
-                            if ( WE_IN && ACTIVE_flag && ((counter - counter_db) > RCD_TIME))
+                            if ( ~WE_RE_flag && ACTIVE_flag && ((counter - counter_db) > RCD_TIME))
                                 next_state = WRITE;
 
                             if ( PRECHARGE_flag && ((counter - counter_db) > DPL_TIME + 2))
                                 next_state = PRECHARGE;
                             
                             //NOP command //in IDLE state operating NOP command
-                            ADR_OUT  = 13'bz;
-                            BDR_OUT = 2'bz;
+                            ADR_OUT  = 13'b0;
+                            BDR_OUT = BDR_IN;
                             CKE = 1;
                             CS = 0;
                             RAS = 1;
@@ -188,7 +201,7 @@ always @(*)
                                     next_state = IDLE;
                             
                             //PRECHARGE command
-                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 10'bz };
+                            ADR_OUT [12:0] = { 2'b0, 1'b0 , 10'b0 };
                             BDR_OUT = BDR_IN;
                             CKE = 1;
                             CS = 0;
@@ -208,8 +221,8 @@ always @(*)
                             end
                             
                             //PRECHRGE_ALL command
-                            ADR_OUT [12:0] = { 2'bz, 1'b1 , 10'bz };
-                            BDR_OUT = 2'bz;
+                            ADR_OUT [12:0] = { 2'b0, 1'b1 , 10'b0 };
+                            BDR_OUT = BDR_IN;
                             CKE = 1;
                             CS =  0;
                             RAS = 0;
@@ -225,8 +238,8 @@ always @(*)
                             end
                             
                             //AUTO_REFR command
-                            ADR_OUT  = 13'bz;
-                            BDR_OUT = 2'bz;
+                            ADR_OUT  = 13'b0;
+                            BDR_OUT = BDR_IN;
                             CKE = 1;
                             CS = 0;
                             RAS = 0;
@@ -236,15 +249,15 @@ always @(*)
             end
 
             MRS:            begin
-                            next_state = IDLE;
+                                next_state = IDLE;
 
                             //register configuration
                             if   ( init_flag ) begin
-                                BDR_OUT = 2'b00;
+                                BDR_OUT = BDR_IN;
                                 ADR_OUT = 13'b000_0_00_011_0_111;
                             end
                             else begin
-                                BDR_OUT = 2'b00;
+                                BDR_OUT = BDR_IN;
                                 ADR_OUT = 13'b000_0_00_011_0_111;
                             end    
 
@@ -263,7 +276,7 @@ always @(*)
                             
                             //ACTIVE command
                             BDR_OUT = BDR_IN;
-                            ADR_OUT [12:0] = ADR_IN [12:0]; 
+                            ADR_OUT [12:0] = ADR_IN [ ROW_DEPTH + COLUMN_DEPTH - 1 -: ROW_DEPTH - 1]; 
                             CKE = 1;
                             CS = 0;
                             RAS = 0;
@@ -277,7 +290,7 @@ always @(*)
                             
                             //READ command
                             BDR_OUT = BDR_IN;
-                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 1'bz, ADR_IN [8:0] };
+                            ADR_OUT [12:0] = { 4'b0 , ADR_IN [ COLUMN_DEPTH - 1 : 0 ] };
                             CKE = 1;
                             CS = 0;
                             RAS = 1;
@@ -291,7 +304,7 @@ always @(*)
                             
                             //WRITE command
                             BDR_OUT = BDR_IN;
-                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 1'bz, ADR_IN [8:0] };
+                            ADR_OUT [12:0] = { 4'b0 , ADR_IN [ COLUMN_DEPTH - 1 : 0 ] };
                             CKE = 1;
                             CS = 0;
                             RAS = 1;
@@ -304,7 +317,7 @@ always @(*)
                             next_state = IDLE;
                             //WRITE command
                             BDR_OUT = BDR_IN;
-                            ADR_OUT [12:0] = { 2'bz, 1'b0 , 1'bz, ADR_IN [8:0] };
+                            ADR_OUT [12:0] = { 4'b0 , ADR_IN [ COLUMN_DEPTH - 1 : 0 ] };
                             CKE = 1;
                             CS = 0;
                             RAS = 1;
@@ -317,8 +330,8 @@ always @(*)
                             next_state = IDLE;
                             
                             //NOP command
-                            ADR_OUT  = 13'bz;
-                            BDR_OUT = 2'bz;
+                            ADR_OUT  = 13'b0;
+                            BDR_OUT = BDR_IN;
                             CKE = 1;
                             CS = 0;
                             RAS = 1;

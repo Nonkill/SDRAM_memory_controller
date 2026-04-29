@@ -1,6 +1,7 @@
 do ./test_bench_march.fdo
 do ./test_bench_march.udo
 
-run 10 us
+run 20 us
 
 #run -all
+

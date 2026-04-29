@@ -18,6 +18,14 @@
 
 /*
 march
+    #(
+        .ADR_WIDTH  (),                                      // bit amoiunt of address reg
+        .DATA_WIDTH (),                                      // width of data stored in data cell of sdram
+        .ITERATION  (),                                      // how many times the memory will be scanned and filled
+        .POWER_OF_THE_CHECKED_ADRESSES  ()                   // amount of bits subtract one, which will be used for counter, that roll adresses
+                                                             // as an example 11 give a 2^11 = 2048 cells form 0 that will be checked during test
+                                                             // for purposes of full mem check use 16                
+    )
     march_inst
     (
         .CLK        (),             //  in, u[ 1 ], Clock
@@ -32,13 +40,13 @@ march
         .FLAG       (),             // out, u[ 1 ],  error flag
         .ADDR_ERR   (),             // out, u[ ADR_WIDTH ], address of error
         .VALUE_ERR  (),             // out, u[ 1 ],  value of error
-        .VALUE_EXP  ()             // out, u[ 1 ],  expected value
+        .VALUE_EXP  ()              // out, u[ 1 ],  expected value
     );
 */
 
 module march
     #(
-        parameter                                   ADR_WIDTH    =   13,  // bit amoiunt of address reg
+        parameter                                   ADR_WIDTH    =   22,  // bit amoiunt of address reg
         parameter                                   DATA_WIDTH   =   16,  // width of data stored in data cell of sdram
         parameter                                   ITERATION    =   5,    // how many times the memory will be scanned and filled
         parameter                                   POWER_OF_THE_CHECKED_ADRESSES = 6   // amount of bits subtract one, which will be used for counter, that roll adresses
@@ -48,15 +56,12 @@ module march
     (
         input   wire                                CLK,                 //  in, u[ 1 ], Clock
         input   wire                                NRESET,              //  in, u[ 1 ], Async. negedge reset
-
         input   wire                                MEM_RDY,             //  in, u[ 1 ], Memory controller ready
         input   wire    [ DATA_WIDTH - 1 :  0 ]     DI,                  //  in, u[ DATA_WIDTH ], Data from RAM
-
         output  wire    [ ADR_WIDTH - 1 :  0  ]     A,                   // out, u[ ADR_WIDTH ], Address
         output  wire    [ DATA_WIDTH - 1 :  0 ]     DO,                  // out, u[ DATA_WIDTH ], Data to RAM
         output  wire                                WE,                  // out, u[ 1 ], Write enable for memory
         output  wire                                RE,                  // out, u[ 1 ], Read enable for memory
-
         output  wire                                RDY,                 // out, u[ 1 ],  Ready
         output  wire                                FLAG,                // out, u[ 1 ],  error flag
         output  wire    [ ADR_WIDTH - 1 :  0 ]      ADDR_ERR,            // out, u[ ADR_WIDTH ], address of error
@@ -89,13 +94,13 @@ wire                w_flag;
 localparam COUNTER_MSB      = POWER_OF_THE_CHECKED_ADRESSES;
 localparam START_POINT      = 64;
 
-reg     [ ADR_WIDTH   :  0 ]       r_addr;
+reg     [ ADR_WIDTH - 1 :  0 ]     r_addr;
 reg     [ COUNTER_MSB :  0 ]       r_counter;      // [16:0] - full memory check, [11:0] - 2048 cells check
 reg     [ $clog2(ITERATION) : 0 ]  r_iter;
-reg                                r_do;           // value for comparing with read data and inverse writing 
+reg     [ 15 : 0 ]                 r_do;           // value for comparing with read data and inverse writing 
 reg                                r_rdy;
 reg                                r_flag;
-reg     [ ADR_WIDTH :  0 ]         r_addr_error;
+reg     [ ADR_WIDTH - 1 :  0 ]     r_addr_error;
 reg     [ DATA_WIDTH - 1 :  0 ]    r_value_error;
 reg     [ DATA_WIDTH - 1 :  0 ]    r_value;
 reg     [  4 :  0 ]                r_state;
@@ -118,37 +123,40 @@ assign WE                 = (r_state == WRITE_0) ||
 assign RE                 = (r_state == READ)  
                             ? 1'b1 : 1'b0;
 assign DO                 = (r_state == WRITE)              
-                            ? ~r_do : 1'b0;                 //!!!!!! attention after sim
+                            ? ~r_do : r_do;                 //!!!!!! attention after sim
 
-assign w_en_r_rdy         = (r_state == INIT_1) ||
-                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do) ||
-                            (r_state == READ && (r_iter == ITERATION))
+assign w_en_r_rdy         = //(r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && r_do != DI) ||
+                            (r_state == PASS) ||
+                            (r_state == ERROR)
                              ? 1'b1 : 1'b0;
-assign w_rdy              = (r_state == INIT_1) ||
-                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do) ||
-                            (r_state == READ && (r_iter == ITERATION))
-                             ? 1'b0 : 1'b0;
-assign w_en_r_flag        = (r_state == INIT_1) ||
-                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do) ||
+assign w_rdy              = //(r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && r_do != DI) ||
+                            (r_state == PASS) ||
+                            (r_state == ERROR) 
+                             ? 1'b1 : 1'b0;
+assign w_en_r_flag        = //(r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && r_do != DI) ||
                             (r_state == READ && (r_iter == ITERATION))
                             ? 1'b1 : 1'b0;
-assign w_flag             = (r_state == INIT_1) ||
-                            (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)
-                            ? 1'b0 : 1'b0;
+assign w_flag             = //(r_state == INIT_1) ||
+                            (r_state == READ_TO_WRITE && MEM_RDY && r_do != DI)
+                            ? 1'b1 : 1'b0;
 
-assign w_en_r_addr        = (r_state == INIT_1) ||
-                            (r_state == INIT_2) ||
-                            (r_state == WRITE_0 ) ||
-                            (r_state == WRITE_0_WAIT && ~r_counter[COUNTER_MSB]) ||
-                            (r_state == WRITE )                                  // mb need condition for more flexible behaviour
-                            ? (r_iter < 2) : 1'b0;                                          // необходимо переписать через case или сделать длинное условие, наверное нет
-assign w_sclr_r_addr      = (r_state == WRITE_0 ) ||
-                            (r_state == WRITE ) ||
-                            (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB]) 
+assign w_en_r_addr        = //(r_state == INIT_1) ||
+                            //(r_state == INIT_2) ||
+                            (r_state == WRITE_0 && MEM_RDY ) ||
+                            //(r_state == WRITE_0_WAIT && ~r_counter[COUNTER_MSB]) ||
+                            (r_state == WRITE && MEM_RDY )                                              // mb need condition for more flexible behaviour
+                            ? (r_iter == 0 || r_iter == 2 || r_iter == 4 ) : 1'b0;                      // необходимо переписать через case или сделать длинное условие, наверное нет
+assign w_sclr_r_addr      = (r_state == WRITE_0 && MEM_RDY && ~r_counter[COUNTER_MSB]) ||
+                            (r_state == WRITE && MEM_RDY && ~r_counter[COUNTER_MSB])
+                            //(r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB])
                             ? 1'b1 : 1'b0;
 assign w_en_r_counter     = (r_state == INIT_2) ||
-                            (r_state == WRITE_0) ||
-                            (r_state == WRITE ) ||
+                            (r_state == WRITE_0 && MEM_RDY ) ||
+                            (r_state == WRITE && MEM_RDY ) ||
+                            (r_state == WRITE_0_WAIT && r_counter[COUNTER_MSB]) ||
                             (r_state == WRITE_TO_READ && MEM_RDY && r_counter [COUNTER_MSB])
                             ? 1'b1 : 1'b0;
 assign w_sclr_r_counter   = (r_state == INIT_2) ||
@@ -157,10 +165,11 @@ assign w_sclr_r_counter   = (r_state == INIT_2) ||
                             ? 1'b1 : 1'b0;
 
 
-assign w_en_r_addr_error  = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)                 ? 1'b1 : 1'b0;
-assign w_en_r_value_error = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)                 ? 1'b1 : 1'b0;
-assign w_en_r_value       = (r_state == READ_TO_WRITE && MEM_RDY && DI != r_do)                 ? 1'b1 : 1'b0;
-assign w_en_r_iter        = (r_state == WRITE_TO_READ && MEM_RDY && r_counter [COUNTER_MSB])    ? 1'b1 : 1'b0;
+assign w_en_r_addr_error  = (r_state == READ_TO_WRITE && MEM_RDY && r_do != DI)                 ? 1'b1 : 1'b0;
+assign w_en_r_value_error = (r_state == READ_TO_WRITE && MEM_RDY && r_do != DI)                 ? 1'b1 : 1'b0;
+assign w_en_r_value       = (r_state == READ_TO_WRITE && MEM_RDY && r_do != DI)                 ? 1'b1 : 1'b0;
+assign w_en_r_iter        = ((r_state == WRITE_TO_READ || r_state == WRITE_0_WAIT) && ~MEM_RDY && r_counter [COUNTER_MSB])    ? 1'b1 : 1'b0;
+assign w_en_r_do          = (r_state == WRITE_TO_READ && MEM_RDY && r_counter [COUNTER_MSB] && (r_iter != 1'd0))    ? 1'b1 : 1'b0;
 
 assign A                  = r_addr;                                 
 assign RDY                = r_rdy;
@@ -182,9 +191,9 @@ assign VALUE_EXP          = r_value;
 
             else
                 if(w_sclr_r_addr)
-                    r_addr <= START_POINT - 1;
-                else
                     r_addr <= r_addr - 1;
+                else
+                    r_addr <= r_addr;
 
 
     always @(posedge CLK or negedge NRESET)
@@ -197,6 +206,8 @@ assign VALUE_EXP          = r_value;
                 else
                     if (~r_counter[COUNTER_MSB])
                         r_counter <= r_counter - 1;
+                    else
+                        r_counter <= r_counter;
             else 
                 r_counter <= r_counter;
 
@@ -297,7 +308,7 @@ assign VALUE_EXP          = r_value;
                     end
 
                     READ:  begin
-                        if (r_iter == ITERATION - 1)
+                        if (r_iter == ITERATION)
                             r_state   <= PASS;
                         else if (~MEM_RDY)
                             r_state <= READ_TO_WRITE;
@@ -306,10 +317,10 @@ assign VALUE_EXP          = r_value;
 
 
                     READ_TO_WRITE: begin
-                        if (MEM_RDY && (DI != r_do)) 
+                        if (MEM_RDY && (r_do != DI)) 
                             r_state <= ERROR;
                         
-                        else if (MEM_RDY && (DI == r_do))
+                        else if (MEM_RDY && (r_do == DI))
                             r_state <= WRITE;
 
                     end

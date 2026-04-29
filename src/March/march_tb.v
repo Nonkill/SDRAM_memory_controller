@@ -52,25 +52,83 @@ initial begin
     r_nreset = 1;
     r_mem_rdy = 1; 
     #35;
+    r_di = '0;
     repeat (64) begin
         if (r_we) begin
-            @(posedge r_clk)
-            r_mem_rdy = ~r_mem_rdy; 
+            r_mem_rdy <= ~r_mem_rdy; 
+            @(posedge r_clk);
         end
+        r_mem_rdy <= ~r_mem_rdy;
+        @(posedge r_clk);
+        @(posedge r_clk);
+
     end
 
-    repeat ( (64) * 5) begin
+    repeat (64) begin
+        if (r_re)
+            r_mem_rdy = 0;
+        
+        @(posedge r_clk);
+        r_mem_rdy = 1;
+        @(posedge r_clk);
+        @(posedge r_clk);
+        r_mem_rdy = 0;
+        @(posedge r_clk);
+        @(posedge r_clk);
+        r_mem_rdy = 1;
+        @(posedge r_clk);
+        @(posedge r_clk);
+
+    end
+    r_di <= '1;
+    repeat (63) begin
+        if (r_re)
+            r_mem_rdy <= 0;
+        @(posedge r_clk);
+        r_mem_rdy <= 1;
+        @(posedge r_clk);
+        @(posedge r_clk);
+        r_mem_rdy <= 0;
+        @(posedge r_clk);
+        @(posedge r_clk);
+        r_mem_rdy <= 1;
+        @(posedge r_clk);
+        @(posedge r_clk);
+
+    end
+    r_di <= '0;
+    repeat (63) begin
         if (r_re)
             r_mem_rdy <= 0;
         
-        @(posedge r_clk)
-        @(posedge r_clk)
-        r_di <= '0;
+        @(posedge r_clk);
+        @(posedge r_clk);
         r_mem_rdy <= 1;
-        @(posedge r_clk)
+        @(posedge r_clk);
+        @(posedge r_clk);
         r_mem_rdy <= 0;
-        @(posedge r_clk)
+        @(posedge r_clk);
+        @(posedge r_clk);
         r_mem_rdy <= 1;
+        @(posedge r_clk);
+        @(posedge r_clk);
+    end
+    r_di <= '1;
+    repeat (63) begin
+        if (r_re)
+            r_mem_rdy <= 0;
+        @(posedge r_clk);
+        @(posedge r_clk);
+        r_mem_rdy <= 1;
+        @(posedge r_clk);
+        @(posedge r_clk);
+        r_mem_rdy <= 0;
+        @(posedge r_clk);
+        @(posedge r_clk);
+        r_mem_rdy <= 1;
+        @(posedge r_clk);
+        @(posedge r_clk);
+    end
 
         if (r_flag) 
             $error ("During test handled the error in adress %d, value expected %b, got value %b", r_addr_error, r_value_exp, r_value_err );
@@ -78,11 +136,6 @@ initial begin
             $finish ("Test completed successful");
 
     end
-
-
-
-
-end
 
 
 

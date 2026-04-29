@@ -1,32 +1,45 @@
-module top (ADR_IN, ADR_OUT, BDR_IN, BDR_OUT, DIN, DOUT, RE_IN,  WE_IN, WE_OUT, NRST, CLK, RDY, CKE, CS, RAS, CAS, DQ);
+module top 
+#(
+    parameter COLUMN_WIDTH = 16,
+    parameter BANK_NUM = 2,
+    parameter ROW_DEPTH = 13,
+    parameter COLUMN_DEPTH = 9
 
-input   wire       [12:0]                   ADR_IN; 
-output  wire       [12:0]                   ADR_OUT; 
-input   wire       [1:0]                    BDR_IN;
-output  wire       [1:0]                    BDR_OUT; 
-input   wire       [15:0]                   DIN; 
-output  wire       [15:0]                   DOUT; 
-input   wire                                RE_IN;  
-input   wire                                WE_IN; 
-output  wire                                WE_OUT; 
-input   wire                                NRST; 
-input   wire                                CLK ; 
-output  wire                                RDY; 
-output  wire                                CKE;       
-output  wire                                CS;        
-output  wire                                RAS;       
-output  wire                                CAS;       
-output  wire       [15:0]                   DQ;
+)
+(ADR_IN, ADR_OUT, BDR_IN, BDR_OUT, DIN, DOUT, RE_IN,  WE_IN, WE_OUT, NRST, CLK, RDY, CKE, CS, RAS, CAS, DQ);
+
+input   wire       [ ROW_DEPTH + COLUMN_DEPTH - 1 : 0 ]     ADR_IN; 
+output  wire       [ 12 : 0 ]                               ADR_OUT; 
+input   wire       [ BANK_NUM - 1 : 0 ]                     BDR_IN;
+output  wire       [ BANK_NUM - 1 : 0 ]                     BDR_OUT; 
+input   wire       [ COLUMN_WIDTH - 1 : 0 ]                 DIN; 
+output  wire       [ COLUMN_WIDTH - 1 : 0 ]                 DOUT; 
+input   wire                                                RE_IN;  
+input   wire                                                WE_IN; 
+output  wire                                                WE_OUT; 
+input   wire                                                NRST; 
+input   wire                                                CLK ; 
+output  wire                                                RDY; 
+output  wire                                                CKE;       
+output  wire                                                CS;        
+output  wire                                                RAS;       
+output  wire                                                CAS;       
+output  wire       [ COLUMN_WIDTH - 1 : 0 ]                 DQ;
 
         wire                                DIRECTION;
 
-memory_controller memory_contoller_inst ( 
+memory_controller 
+#(
+                        .BANK_NUM(BANK_NUM),
+                        .ROW_DEPTH(ROW_DEPTH),
+                        .COLUMN_DEPTH(COLUMN_DEPTH)
+)
+memory_contoller_inst 
+( 
                         .ADR_IN  (ADR_IN), 
                         .ADR_OUT (ADR_OUT), 
                         .BDR_IN (BDR_IN),
-                        .BDR_OUT (BDR_OUT),  
-                        //.DIN (DIN), 
-                        //.DOUT (DOUT), 
+                        .BDR_OUT (BDR_OUT),   
                         .RE_IN (RE_IN),  
                         .WE_IN (WE_IN),  
                         .NRST (NRST), 
@@ -37,7 +50,6 @@ memory_controller memory_contoller_inst (
                         .CS (CS), 
                         .RAS (RAS), 
                         .CAS (CAS),
-                        //.DQ (DQ),
                         .DIRECTION(DIRECTION)  
 );
 
@@ -52,9 +64,9 @@ generate
             .SLEW ("SLOW") // Specify the output slew rate
         ) IOBUF_inst (
             .O (DOUT[i]),             // Buffer output
-            .IO(DQ  [i]),              // Buffer inout port (connect directly to top-level port)
+            .IO(DQ  [i]),             // Buffer inout port (connect directly to top-level port)
             .I (DIN [i]),            // Buffer input
-            .T (DIRECTION)      // 3-state enable input, high=input, low=output
+            .T (DIRECTION)           // 3-state enable input, high=input, low=output
         );
     end
 endgenerate

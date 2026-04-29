@@ -2,18 +2,20 @@
 
 module memory_controller_tb();
 
-int                                  cnt;
-int                                  errors;
-logic     [12:0]                     addr_row;
-logic     [8:0]                      addr_collumn;
-logic     [15:0]                     mem_double [3:0][8192:0][8:0];
+localparam COLUMN_WIDTH = 16;
 
-logic      [12:0]                    ADR_IN; 
+int                                   cnt;
+int                                   errors;
+logic      [21:0]                     addr_row;
+logic      [8:0]                      addr_collumn;
+logic      [ COLUMN_WIDTH - 1 :0]     mem_double [3:0][8192:0][8:0];
+
+logic      [21:0]                    ADR_IN; 
 wire       [12:0]                    ADR_OUT; 
 logic      [1:0]                     BDR_IN;
 wire       [1:0]                     BDR_OUT; 
-logic      [15:0]                    DIN; 
-logic      [15:0]                    DOUT; 
+logic      [ COLUMN_WIDTH - 1 :0]    DIN; 
+logic      [ COLUMN_WIDTH - 1 :0]    DOUT; 
 logic                                RE_IN;  
 logic                                WE_IN; 
 wire                                 WE_OUT; 
@@ -24,7 +26,7 @@ wire                                 CKE;
 wire                                 CS;        
 wire                                 RAS;       
 wire                                 CAS;       
-wire      [15:0]                     DQ;        
+wire       [ COLUMN_WIDTH - 1 :0]    DQ;        
 wire       [12:0]                    adr_out; 
 wire       [1:0]                     bdr_out;  
 wire                                 we_out;  
@@ -32,10 +34,11 @@ wire                                 cke;
 wire                                 cs;        
 wire                                 ras;       
 wire                                 cas;       
-wire      [15:0]                     dq;  
+wire      [ COLUMN_WIDTH - 1 :0]     dq;  
 
 
-top top_inst ( 
+top top_inst
+( 
                         .ADR_IN  (ADR_IN), 
                         .ADR_OUT (ADR_OUT), 
                         .BDR_IN (BDR_IN),
@@ -77,17 +80,17 @@ IS42S16160 memory_inst (
                         .Dqm(2'b00)
 );
 
-task automatic mem_ACTIVE_select_row (ref logic [12:0] ADR_IN);
+task automatic mem_ACTIVE_select_row (ref logic [21:0] ADR_IN);
         //#10;
         ADR_IN = addr_row;
 endtask
 
-task automatic mem_WRITE_collumn (ref logic [12:0] ADR_IN);
+task automatic mem_WRITE_collumn (ref logic [21:0] ADR_IN);
         //#10;
         ADR_IN = addr_collumn;
 endtask
 
-task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:0] addr_collumn, ref logic RDY, ref logic [12:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN, output logic [15:0] DIN);
+task automatic mem_WRITE (ref logic CLK, ref logic [21:0] addr_row, ref logic [8:0] addr_collumn, ref logic RDY, ref logic [21:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN, output logic [15:0] DIN);
 
                 //@(posedge CLK);
                 //@ (posedge RDY);
@@ -128,7 +131,7 @@ task automatic mem_WRITE (ref logic CLK, ref logic [12:0] addr_row, ref logic [8
 
 endtask
 
-task automatic mem_READ (ref logic CLK, ref logic [12:0] addr_row, ref logic [8:0] addr_collumn, input logic RDY, input logic [15:0] DQ, ref logic [12:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN);
+task automatic mem_READ (ref logic CLK, ref logic [21:0] addr_row, ref logic [8:0] addr_collumn, input logic RDY, input logic [15:0] DQ, ref logic [21:0] ADR_IN, inout logic [1:0] BDR_IN, output logic RE_IN, output logic WE_IN);
 
                 //@(posedge CLK);
                         if (addr_collumn < 511) begin
